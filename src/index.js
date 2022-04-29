@@ -5,13 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 
+import { FirebaseProvider } from './context/FirebaseContext';
+
 const elementRoot = document.getElementById('root')
 const root = createRoot(elementRoot)
 
 root.render(
   <StrictMode>
-    <ColorModeScript />
-    <App />
+    <FirebaseProvider>
+      <ColorModeScript />
+      <App />
+    </FirebaseProvider>
   </StrictMode>
 );
 
