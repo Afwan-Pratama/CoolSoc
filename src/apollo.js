@@ -9,17 +9,17 @@ import { split, HttpLink } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
 
   const httpLink = new HttpLink({
-    uri: 'https://kampus-merdeka-44.hasura.app/v1/graphql',
+    uri: process.env.REACT_APP_GRAPHQL_HTTP_END_POINT,
     headers: {
-      "x-hasura-admin-secret" : "q2IssO2z2sc8l51ynXm6y327KIHyuSgtluEAZB4rIq9sCw8I0eBiu0IiYYB4n3HR"
+      "x-hasura-admin-secret" : process.env.REACT_APP_GRAPHQL_KEY_VALUE
     }
   });
   
   const wsLink = new GraphQLWsLink(createClient({
-    url: 'wss://kampus-merdeka-44.hasura.app/v1/graphql',
+    url: process.env.REACT_APP_GRAPHQL_WS_END_POINT,
     connectionParams: {
       headers: {
-        "x-hasura-admin-secret" : "q2IssO2z2sc8l51ynXm6y327KIHyuSgtluEAZB4rIq9sCw8I0eBiu0IiYYB4n3HR"
+        "x-hasura-admin-secret" : process.env.REACT_APP_GRAPHQL_KEY_VALUE
       }
     }
   }));
