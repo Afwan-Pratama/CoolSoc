@@ -14,12 +14,17 @@ import {
     Icon
 } from '@chakra-ui/react'
 
+import { useDispatch} from 'react-redux'
+
 import { FaRegEye , FaRegEyeSlash } from 'react-icons/fa'
 
 import { useStateWithValidation } from '../../../hooks'
 
-import InputWithCheck from './InputWithCheck'
 import { fetchEmail } from '../../../graphql/query'
+
+import { addUser } from '../../../store/Slices/UserSlice'
+
+import InputWithCheck from './InputWithCheck'
 
 export default function Card1(props) {
 
@@ -30,6 +35,8 @@ export default function Card1(props) {
         password : /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/ ,
     }
 
+    const dispatch = useDispatch()
+
     const [ email , setEmail, isEmailValid ] = useStateWithValidation(
         value => !regex.email.test(value),''
       )
@@ -37,9 +44,9 @@ export default function Card1(props) {
     const [ password , setPassword, isPasswordValid ] = useStateWithValidation(
         value => !regex.password.test(value) , ''
       )
-
-    const passwordConfirmRef = useRef()
     
+    const passwordConfirmRef = useRef()
+
     const [ showPassword, setShowPassword] = useState(false)
 
     const [ isPasswordConfirmValid, setIsPasswordConfirmValid ] = useState(false)
@@ -59,6 +66,11 @@ export default function Card1(props) {
         if (passwordConfirmRef.current.value !== password){
             return setIsPasswordConfirmValid(true)
           }
+        
+        dispatch(addUser({
+          email : email,
+          password : password
+        }))
         
         handleNext()
     }

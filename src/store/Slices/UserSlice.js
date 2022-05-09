@@ -5,7 +5,7 @@ const initialValue = {}
   export const UserSlice = createSlice({
       name : "user",
       initialState: {
-          todos : initialValue
+          user : initialValue
       },
       reducers:{
           addUser : (state, action) =>{
@@ -13,10 +13,13 @@ const initialValue = {}
                 email : action.payload.email,
                 password : action.payload.password
             }
+          },
+          deleteAccount : (state, action) =>{
+            state.user = initialValue
           }
       }
   })
 
-export const { addUser } = UserSlice.actions
+export const { addUser, deleteAccount } = UserSlice.actions
 
 export default UserSlice.reducer

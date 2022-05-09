@@ -14,7 +14,7 @@ export function FirebaseProvider({children}) {
     const [loading, setLoading] = useState(true)
 
     function signup(email,password) {
-      return createUserWithEmailAndPassword(auth , email ,password)
+      createUserWithEmailAndPassword(auth , email ,password)
     }
 
     function login(email,password) {

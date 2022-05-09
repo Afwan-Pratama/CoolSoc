@@ -4,19 +4,23 @@ import {
     Box, 
     Button, 
     ButtonGroup, 
-    Flex, 
-    FormControl, 
-    FormLabel, 
-    Heading, 
-    Input, 
+    Flex,  
+    Heading,
     Text } from '@chakra-ui/react'
 
 import { Link as ReactLink } from 'react-router-dom'
 
+import { motion } from 'framer-motion'
+
+import SignInContainer from './components/SignInContainer'
+
 export default function SignIn() {
   
     return (
-      <>
+      <motion.div
+        initial={{opacity: 0}}
+        animate={{opacity:1}}
+        exit={{opacity:0}}>
         <Flex 
         textAlign='center'
         h='100vh'>
@@ -84,78 +88,10 @@ export default function SignIn() {
                 </Flex>
 
             </Box>
-            
-            <Flex
-            w='50%'
-            
-            flexDirection='column'
-            alignItems='center'
-            justifyContent='center'
-            gap='12'
-            px={[200, 100 , 75 , 100 , 150 , 200]}
-            >
 
-                <Heading>Sign In</Heading>
-                
-                <Text
-                >
-                Sign Your Account Here!</Text>
-
-                <FormControl 
-                variant='floating'>
-                
-                    <Input placeholder=' '/>
-                
-                    <FormLabel>Email</FormLabel>
-                
-                </FormControl>
-
-                <FormControl 
-                variant='floating'
-                >
-                
-                    <Input placeholder=' '/>
-            
-                    <FormLabel>Password</FormLabel>
-            
-                </FormControl>
-
-                <Button
-                width='full'
-                variant='solid'
-                colorScheme='twitter'
-                bg='primary.100'
-                color='white'
-                >
-                Sign In</Button>
-
-                <Text 
-                >Or Continue With</Text>
-
-                <ButtonGroup
-                gap='12'>
-                        
-                        <Button
-                        variant='solid'
-                        bg='white'
-                        boxShadow='around'
-                        color='black'
-                        colorScheme='twitter'
-                        >Google</Button>
-                        
-                        <Button
-                        variant='solid'
-                        bg='white'
-                        boxShadow='around'
-                        color='black'
-                        colorScheme='twitter'
-                        >Twitter</Button>
-                    
-                </ButtonGroup>
-
-            </Flex>
+            <SignInContainer/>
         
         </Flex>
-      </>
+      </motion.div>
   )
 }

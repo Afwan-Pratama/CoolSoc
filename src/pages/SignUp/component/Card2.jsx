@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 
 import {
     SlideFade,
@@ -12,9 +12,21 @@ import {
     Button,
 } from '@chakra-ui/react'
 
+import { useAuth } from '../../../context/FirebaseContext'
+
+import { useNavigate } from 'react-router-dom'
+
+import { useMutation } from '@apollo/client'
+
+import { useSelector , useDispatch} from 'react-redux'
+
 import { fetchUsername } from '../../../graphql/query'
 
+import { insertUserMutation } from '../../../graphql/mutation'
+
 import { useStateWithValidation } from '../../../hooks'
+
+import { deleteAccount } from '../../../store/Slices/UserSlice'
 
 import InputWithCheck from './InputWithCheck'
 
@@ -27,18 +39,29 @@ export default function Card2(props) {
         name : /[A-Za-z\s]$/
     }
 
+    const dispatch = useDispatch()
+
+    const navigate = useNavigate()
+
+    const userData = useSelector((state)=>state.user.user)
+
     const [ username , setUsername , isUsernameValid] = useStateWithValidation(
         value => !regex.username.test(value),''
-      )
-    
+      )  
       
     const [ firstName , setFirstName, isFirstNameValid ] = useStateWithValidation(
         value => !regex.name.test(value),''
       )
         
     const [ lastName , setLastName, isLastNameValid ] = useStateWithValidation(
-          value => !regex.name.test(value),''
+        value => !regex.name.test(value),''
       )
+    
+    const { signup, currentUser } = useAuth()
+
+    const [ insertUser ] = useMutation(insertUserMutation)
+
+    const [loading,setLoading] = useState(false)
 
     const onChangeUsername = (e) =>{
     
@@ -46,8 +69,28 @@ export default function Card2(props) {
         
     }
 
-    const onSubmitSignUp = () =>{
+    const onSubmitSignUp = async () =>{
       
+      try{
+        
+        setLoading(true)
+        await signup(userData.email,userData.password)
+        await insertUser({variables:{
+          uid : currentUser.uid,
+          email : userData.email,
+          username : username,
+          first_name : firstName,
+          last_name : lastName
+        }})
+        dispatch(deleteAccount())
+        navigate('/')
+
+      } catch {
+
+      }
+
+      setLoading(false)
+
     }
 
   return (
@@ -119,8 +162,9 @@ export default function Card2(props) {
             </Button>
 
             <Button
-            isDisabled={isUsernameValid || isFirstNameValid || isLastNameValid}
+            isDisabled={isUsernameValid || isFirstNameValid || isLastNameValid || loading}
             onClick={onSubmitSignUp}
+            isLoading={loading}
             >
               Submit
             </Button>

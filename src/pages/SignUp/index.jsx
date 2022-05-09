@@ -61,7 +61,11 @@ export default function SignUp() {
   
   return (
    
-   <motion.div>
+   <motion.div
+    initial={{opacity: 0}}
+    animate={{opacity:1}}
+    exit={{opacity:0}}
+   >
 
       <Flex
       h='100vh'
@@ -133,10 +137,10 @@ export default function SignUp() {
         form={form.one} 
         handleNext={handleNext}/>}
 
-        <Card2
+       {form.two.slide && <Card2
         form={form.two}
         handlePrevious={handlePrevious}/>
-
+       }
       </Flex>
   
   </motion.div>
