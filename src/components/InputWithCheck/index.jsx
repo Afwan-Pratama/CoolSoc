@@ -62,7 +62,7 @@ export default function InputWithCheck(props) {
 
     }
 
-    const handleCheckUsername = () =>{
+    const handleCheckInput = () =>{
 
       setClickCheck(false)
 
@@ -130,7 +130,7 @@ export default function InputWithCheck(props) {
                 </Tooltip>}
 
                 <IconButton
-                onClick={handleCheckUsername}
+                onClick={handleCheckInput}
                 bg='transparent'
                 isDisabled={isInputValid || !clickCheck}
                 isLoading={loading}
@@ -144,7 +144,8 @@ export default function InputWithCheck(props) {
         </InputGroup>
 
         {isInputValid && 
-        <FormErrorMessage>{typeInput} is Invalid</FormErrorMessage>}
+        <FormErrorMessage
+        position='absolute'>{typeInput} is Invalid</FormErrorMessage>}
                     
     </FormControl>
   )

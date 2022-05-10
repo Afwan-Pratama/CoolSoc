@@ -8,18 +8,23 @@ const initialValue = {}
           user : initialValue
       },
       reducers:{
-          addUser : (state, action) =>{
+          addUserLocal : (state, action) =>{
             state.user = {
                 email : action.payload.email,
                 password : action.payload.password
             }
           },
-          deleteAccount : (state, action) =>{
+          addIncompletedSignUp : (state, action) => {
+            state.user = {
+              notCompleted : true
+            }
+          },
+          deleteUserLocal : (state, action) =>{
             state.user = initialValue
           }
       }
   })
 
-export const { addUser, deleteAccount } = UserSlice.actions
+export const { addUserLocal ,addIncompletedSignUp , deleteUserLocal } = UserSlice.actions
 
 export default UserSlice.reducer

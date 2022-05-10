@@ -3,7 +3,6 @@ import React from 'react'
 import { 
     Box, 
     Button, 
-    ButtonGroup, 
     Flex,  
     Heading,
     Text } from '@chakra-ui/react'
@@ -36,7 +35,7 @@ export default function SignIn() {
                 borderRadius='25px'
                 h='full'
                 justifyContent='center'
-                gap='12'
+                gap='20'
                 px={[200, 100 , 75 , 100 , 140 , 170]}
                 >
         
@@ -61,29 +60,6 @@ export default function SignIn() {
                     as={ReactLink}
                     to='/sign-up'
                     >Create With Email</Button>
-
-                    <Text
-                    color='white'
-                    >Or Create With</Text>
-
-                    <ButtonGroup
-                    gap='12'>
-                        
-                        <Button 
-                        variant='solid'
-                        bg='white'
-                        color='black'
-                        colorScheme='twitter'
-                        >Google</Button>
-                        
-                        <Button
-                        variant='solid'
-                        bg='white'
-                        color='black'
-                        colorScheme='twitter'
-                        >Twitter</Button>
-                    
-                    </ButtonGroup>
                 
                 </Flex>
 

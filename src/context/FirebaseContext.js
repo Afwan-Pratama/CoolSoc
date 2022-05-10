@@ -1,6 +1,11 @@
 import React,{ useContext, useState ,useEffect} from 'react'
 import { auth , provider } from '../firebase'
-import { sendPasswordResetEmail, createUserWithEmailAndPassword , signInWithEmailAndPassword  , signInWithRedirect } from 'firebase/auth'
+import { 
+  sendPasswordResetEmail, 
+  createUserWithEmailAndPassword , 
+  signInWithEmailAndPassword  , 
+  
+  signInWithPopup } from 'firebase/auth'
 
 const FirebaseContext = React.createContext()
 
@@ -14,7 +19,7 @@ export function FirebaseProvider({children}) {
     const [loading, setLoading] = useState(true)
 
     function signup(email,password) {
-      createUserWithEmailAndPassword(auth , email ,password)
+      return createUserWithEmailAndPassword(auth , email ,password)
     }
 
     function login(email,password) {
@@ -26,7 +31,7 @@ export function FirebaseProvider({children}) {
     }
 
     const signGoogle = () => {
-      return signInWithRedirect(auth, provider)
+      return signInWithPopup(auth, provider)
     }
 
     const forgotPassword = (email) => {

@@ -4,12 +4,14 @@ import {
 } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+
 import { theme } from './theme'
 
 import { AnimatedRoute } from './components'
-import { Provider } from 'react-redux';
+
 import { store , persistor} from './store'
-import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
   return (

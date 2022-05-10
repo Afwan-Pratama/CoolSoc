@@ -2,15 +2,13 @@ import React,{useState} from 'react'
 
 import {
     SlideFade,
-    Box,
+    Flex,
     Heading,
     FormControl,
     FormLabel,
     FormErrorMessage,
     Input,
-    ButtonGroup,
-    Button,
-    useToast
+    Button
 } from '@chakra-ui/react'
 
 import { useAuth } from '../../../context/FirebaseContext'
@@ -19,7 +17,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useMutation } from '@apollo/client'
 
-import { useSelector , useDispatch} from 'react-redux'
+import { useDispatch} from 'react-redux'
 
 import { fetchUsername } from '../../../graphql/query'
 
@@ -31,9 +29,7 @@ import { deleteUserLocal } from '../../../store/Slices/UserSlice'
 
 import InputWithCheck from '../../../components/InputWithCheck'
 
-export default function Card2(props) {
-
-    const {form,handlePrevious} = props
+export default function Card() {
 
     const regex = {
         username : /^[a-z0-9_]{3,12}$/,
@@ -43,10 +39,6 @@ export default function Card2(props) {
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
-
-    const toast = useToast()
-
-    const userData = useSelector((state)=>state.user.user)
 
     const [ username , setUsername , isUsernameValid] = useStateWithValidation(
         value => !regex.username.test(value),''
@@ -60,7 +52,7 @@ export default function Card2(props) {
         value => !regex.name.test(value),''
       )
     
-    const { signup } = useAuth()
+    const { currentUser } = useAuth()
 
     const [ insertUser ] = useMutation(insertUserMutation)
 
@@ -75,37 +67,21 @@ export default function Card2(props) {
     const onSubmitSignUp = async () =>{  
         
         setLoading(true)
-        await signup(userData.email,userData.password)
-        .then(async (result)=>{
-
-          await insertUser({variables:{
-            uid : result.user.uid,
-            email : userData.email,
+        
+        await insertUser({variables:{
+            uid : currentUser.uid,
+            email : currentUser.email,
             username : username,
             first_name : firstName,
             last_name : lastName,
-            avatar_url : ""
-          }}).then(()=>{
+            avatar_url : currentUser.photoURL
+        }}).then(()=>{
             
             dispatch(deleteUserLocal())
             navigate('/')
           
           })
         
-        })
-        .catch((err)=>{
-          toast({
-            title : err.code,
-            description : err.message,
-            variant : 'solid',
-            position : 'bottom',
-            status : 'error',
-            duration : 5000,
-            isClosable : true
-        })
-        })
-
-
         setLoading(false)
 
     }
@@ -113,11 +89,11 @@ export default function Card2(props) {
   return (
 
     <SlideFade 
-        in={form.slide}
+        in={true}
         offsetX='100px'
         >
 
-          <Box
+          <Flex
           w='600px'
           h='600px'
           bg='white'
@@ -127,7 +103,6 @@ export default function Card2(props) {
           justifyContent='center'
           px='100px'
           boxShadow='aroundmd'
-          display={form.display}
           >
             <Heading>Personal Details</Heading>
 
@@ -174,17 +149,6 @@ export default function Card2(props) {
 
             </FormControl>
 
-            <ButtonGroup
-            justifyContent='space-between'
-            >
-
-            <Button
-            onClick={handlePrevious}
-            px='12'
-            >
-              Previous
-            </Button>
-
             <Button
             variant='solid'
             colorScheme='twitter'
@@ -198,11 +162,8 @@ export default function Card2(props) {
               Submit
             </Button>
 
-            </ButtonGroup>
-          
-          </Box>
+          </Flex>
       
       </SlideFade>
-
   )
 }

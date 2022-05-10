@@ -11,10 +11,14 @@ import {
     Button,
     InputGroup,
     InputRightElement,
-    Icon
+    Icon,
+    Text,
+    ButtonGroup
 } from '@chakra-ui/react'
 
-import { useDispatch} from 'react-redux'
+import { useDispatch , useSelector} from 'react-redux'
+
+import { useNavigate } from 'react-router-dom'
 
 import { FaRegEye , FaRegEyeSlash } from 'react-icons/fa'
 
@@ -22,9 +26,9 @@ import { useStateWithValidation } from '../../../hooks'
 
 import { fetchEmail } from '../../../graphql/query'
 
-import { addUser } from '../../../store/Slices/UserSlice'
+import { addUserLocal , deleteUserLocal} from '../../../store/Slices/UserSlice'
 
-import InputWithCheck from './InputWithCheck'
+import InputWithCheck from '../../../components/InputWithCheck'
 
 export default function Card1(props) {
 
@@ -35,14 +39,30 @@ export default function Card1(props) {
         password : /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/ ,
     }
 
+    const userLocal = useSelector((state)=>state.user.user)
+
+    let initialValueForm = {
+      email : '',
+      password : ''
+    }
+
+    if(Object.keys(userLocal).length > 0) {
+      initialValueForm = {
+        email : userLocal.email,
+        password : userLocal.password
+      }
+    }
+
     const dispatch = useDispatch()
 
+    const navigate = useNavigate()
+
     const [ email , setEmail, isEmailValid ] = useStateWithValidation(
-        value => !regex.email.test(value),''
+        value => !regex.email.test(value), initialValueForm.email
       )
 
     const [ password , setPassword, isPasswordValid ] = useStateWithValidation(
-        value => !regex.password.test(value) , ''
+        value => !regex.password.test(value) , initialValueForm.password
       )
     
     const passwordConfirmRef = useRef()
@@ -67,12 +87,20 @@ export default function Card1(props) {
             return setIsPasswordConfirmValid(true)
           }
         
-        dispatch(addUser({
+        dispatch(addUserLocal({
           email : email,
           password : password
         }))
         
         handleNext()
+    }
+
+    const handletoSignIn = () => {
+
+      dispatch(deleteUserLocal())
+
+      navigate('/sign-in')
+
     }
 
   return (
@@ -129,7 +157,10 @@ export default function Card1(props) {
               
               </InputGroup>
 
-              { isPasswordValid && <FormErrorMessage>Password must be 8 character or more</FormErrorMessage>}
+              { isPasswordValid && 
+              <FormErrorMessage 
+              position='absolute'
+              >Password must be 8 character or more</FormErrorMessage>}
                     
             </FormControl>
 
@@ -160,17 +191,36 @@ export default function Card1(props) {
               </InputGroup>
 
               { isPasswordConfirmValid && 
-              <FormErrorMessage>Password Confirmation not same with Password</FormErrorMessage>}
+              <FormErrorMessage
+              position='absolute'
+              >Password Confirmation not same with Password</FormErrorMessage>}
             
             </FormControl>
 
-            <Button 
-            onClick={handleNextButton}
-            disabled={isEmailValid || isPasswordValid}
+            <ButtonGroup
+            flexDirection='column'
+            gap='5'
             >
-              Next
-            </Button>
 
+              <Button 
+              onClick={handleNextButton}
+              disabled={isEmailValid || isPasswordValid}
+              >
+                Next
+              </Button>
+
+              <Text>Already Have Account ?</Text>
+              
+              <Button
+              variant='solid'
+              colorScheme='twitter'
+              bg='primary.100'
+              color='white'
+              onClick={handletoSignIn}>
+               Sign In
+              </Button>
+
+            </ButtonGroup>
           </Box>
 
         </SlideFade>

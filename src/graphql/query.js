@@ -15,3 +15,11 @@ query fetchUsername($input: String!) {
     }
   }  
 `
+
+export const fetchUID = gql`
+query fetchUID($uid : String) {
+  user(where: { uid: {_eq: $uid} }){
+    uid
+  }
+}
+`
