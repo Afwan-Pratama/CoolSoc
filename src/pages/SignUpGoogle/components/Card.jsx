@@ -19,6 +19,8 @@ import { useMutation } from '@apollo/client'
 
 import { useDispatch} from 'react-redux'
 
+import { useCookies } from 'react-cookie'
+
 import { fetchUsername } from '../../../graphql/query'
 
 import { insertUserMutation } from '../../../graphql/mutation'
@@ -58,6 +60,8 @@ export default function Card() {
 
     const [loading,setLoading] = useState(false)
 
+    const [cookie,setCookie] = useCookies(["uid"])
+
     const onChangeUsername = (e) =>{
     
         setUsername(e)
@@ -75,10 +79,15 @@ export default function Card() {
             first_name : firstName,
             last_name : lastName,
             avatar_url : currentUser.photoURL
-        }}).then(()=>{
+        }}).then((result)=>{
             
             dispatch(deleteUserLocal())
-            navigate('/')
+            setCookie("uid", result.data.user[0].uid,{
+              path : "/",
+              sameSite : "none",
+              secure : true
+            })
+            navigate("/")
           
           })
         

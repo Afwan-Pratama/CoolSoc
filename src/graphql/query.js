@@ -23,3 +23,19 @@ query fetchUID($uid : String) {
   }
 }
 `
+
+export const fetchUserData = gql`
+query MyQuery($uid: String = "") {
+  user(where: {uid: {_eq: $uid}}) {
+    uid
+    username
+    user_detail {
+      first_name
+      last_name
+    }
+    user_avatar {
+      avatar_url
+    }
+  }
+}
+`

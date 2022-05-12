@@ -2,36 +2,56 @@ import React from 'react'
 
 import { motion } from 'framer-motion'
 
-import { Button } from '@chakra-ui/react'
+import {
+  Flex
+} from '@chakra-ui/react'
 
-import { useNavigate } from 'react-router-dom'
+import { useQuery } from '@apollo/client'
 
-import { useAuth } from '../../context/FirebaseContext'
+import { useCookies } from 'react-cookie'
+
+import { fetchUserData } from '../../graphql/query'
+
+import { Navbar , SpinnerPage} from '../../components'
+
+import AddPost from './components/AddPost'
 
 export default function Home() {
 
-  const { currentUser , logOut } = useAuth()
+  const [cookies] = useCookies(["uid"])
 
-  const navigate = useNavigate()
-
-  const handleLogOut = async () =>{
-
-    try{
-      await logOut()
-      navigate("/sign-in")
-    }catch{
-
+  const { data, loading } = useQuery(fetchUserData,{
+    variables: {
+      uid : cookies.uid
     }
-    
+  })
+
+  if(loading) {
+    return <SpinnerPage/>
   }
 
   return (
+    
     <motion.div
     initial={{opacity: 0}}
     animate={{opacity:1}}
     exit={{opacity:0}}
-    style={{height : '100vh' , width: '100%' , backgroundColor: 'seagreen'}}>
-      <Button onClick={handleLogOut}>Log Out</Button>
+    >
+    
+      <Navbar 
+      avatarUrl={data.user[0].user_avatar.avatar_url}
+      />
+
+      <Flex
+      flexDirection='column'
+      alignItems='center'
+      mt='20'
+      >
+
+      <AddPost/>
+
+      </Flex>
+
     </motion.div>
   )
 }

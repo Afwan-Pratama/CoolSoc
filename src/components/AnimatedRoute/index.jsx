@@ -15,6 +15,7 @@ import SignUp from '../../pages/SignUp';
 import SignIn from '../../pages/SignIn';
 import SignUpGoogle from '../../pages/SignUpGoogle'
 import ForgotPassword from '../../pages/ForgotPassword'
+import AddPostPage from '../../pages/AddPostPages'
 
 export default function AnimatedRoute() {
 
@@ -22,6 +23,7 @@ export default function AnimatedRoute() {
       <AnimatePresence>
 
         <Routes>
+
             <Route path='/' >
   
             <Route index element={
@@ -64,8 +66,26 @@ export default function AnimatedRoute() {
   
             }/>
 
-            <Route path='forgot-password' element={<ForgotPassword/>}/>
+            <Route path='forgot-password' element={
             
+            <AuthOnSignIn>
+
+              <ForgotPassword/>
+
+            </AuthOnSignIn>
+            
+            }/>
+            
+            <Route path='add-post' element={
+
+              <AuthAfterSignUp>
+
+                <AddPostPage/>
+
+              </AuthAfterSignUp>
+
+            }/>
+
             </Route>      
         
         </Routes>  

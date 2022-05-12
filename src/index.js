@@ -7,6 +7,8 @@ import { FirebaseProvider } from './context/FirebaseContext';
 
 import { ApolloProvider } from '@apollo/client';
 
+import { CookiesProvider } from 'react-cookie'
+
 import client from './apollo-client';
 
 const elementRoot = document.getElementById('root')
@@ -16,8 +18,10 @@ root.render(
   <StrictMode>
     <FirebaseProvider>
       <ApolloProvider client={client}>
-        <ColorModeScript />
-        <App />
+        <CookiesProvider>
+          <ColorModeScript />
+          <App />
+        </CookiesProvider>
       </ApolloProvider>
     </FirebaseProvider>
   </StrictMode>
