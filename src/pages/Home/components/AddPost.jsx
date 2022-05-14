@@ -25,7 +25,7 @@ export default function AddPost() {
         <>
 
             <Flex
-            w='500px'
+            w={[300,500,700,800,1000]}
             justifyContent='space-between'
             alignItems='center'
             boxShadow='around'
@@ -48,7 +48,7 @@ export default function AddPost() {
                     'How are you today?',
                     'What do you think?',
                     'What do you feel?',
-                    'What do you want to share ?',
+                    'What do you want to share?',
                     'Pour it all here...',
                 ]}
             multiTextDelay={2000}

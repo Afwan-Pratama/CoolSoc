@@ -25,7 +25,7 @@ query fetchUID($uid : String) {
 `
 
 export const fetchUserData = gql`
-query MyQuery($uid: String = "") {
+query fetchUserData($uid: String = "") {
   user(where: {uid: {_eq: $uid}}) {
     uid
     username
@@ -38,4 +38,51 @@ query MyQuery($uid: String = "") {
     }
   }
 }
+`
+
+export const fetchUserAndPosts = gql`
+query fetchUserAndPosts($uid: String) {
+  user(where: {uid: {_eq: $uid}}) {
+    uid
+    username
+    user_avatar {
+      avatar_url
+    }
+    user_detail {
+      first_name
+      last_name
+    }
+  }
+  posts {
+    post_id
+    uid
+    content
+    user {
+      username
+      user_avatar {
+        avatar_url
+      }
+    }
+    comments_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+}
+`
+
+export const fetchComments = gql`
+query fetchComments($post_id: uuid) {
+    comments(where: {post_id: {_eq: $post_id}}) {
+      content
+      uid
+      user {
+        username
+        user_avatar {
+          avatar_url
+        }
+      }
+  }
+} 
 `

@@ -25,7 +25,7 @@ import { useAuth } from '../../context/FirebaseContext'
 
 export default function Navbar(props) {
   
-  const { avatarUrl } = props
+  const { avatarUrl , username } = props
   
   const { logOut } = useAuth()
 
@@ -128,7 +128,7 @@ export default function Navbar(props) {
                     <Icon 
                     fontSize='xl'
                     as={RiAccountCircleLine}/>
-                    Profile
+                    {username}
                     
                     </MenuItem>
                     

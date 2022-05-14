@@ -3,24 +3,25 @@ import React from 'react'
 import { motion } from 'framer-motion'
 
 import {
-  Flex
+  Flex,
 } from '@chakra-ui/react'
 
 import { useQuery } from '@apollo/client'
 
 import { useCookies } from 'react-cookie'
 
-import { fetchUserData } from '../../graphql/query'
+import { fetchUserAndPosts } from '../../graphql/query'
 
-import { Navbar , SpinnerPage} from '../../components'
+import { Navbar , SpinnerPage , TextEditor} from '../../components'
 
 import AddPost from './components/AddPost'
+import PostContainer from './components/PostContainer'
 
 export default function Home() {
 
   const [cookies] = useCookies(["uid"])
 
-  const { data, loading } = useQuery(fetchUserData,{
+  const { data, loading } = useQuery(fetchUserAndPosts,{
     variables: {
       uid : cookies.uid
     }
@@ -40,15 +41,32 @@ export default function Home() {
     
       <Navbar 
       avatarUrl={data.user[0].user_avatar.avatar_url}
+      username={data.user[0].username}
       />
 
       <Flex
       flexDirection='column'
       alignItems='center'
-      mt='20'
+      m='20'
+      gap='10'
       >
 
       <AddPost/>
+
+      {data.posts.map((post,index)=>(
+
+        <Flex
+        key={index}
+        flexDirection='column'
+        >
+
+        <PostContainer 
+        post={post}
+        /> 
+      
+        </Flex>
+
+      ))}
 
       </Flex>
 
