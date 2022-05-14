@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { 
     Flex,
@@ -8,16 +8,35 @@ import {
     Icon,
     Box,
     SkeletonCircle,
-    SkeletonText
+    SkeletonText,
+    ButtonGroup,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverBody,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverHeader,
+    Input,
+    InputGroup,
+    InputRightElement,
+    IconButton,
+    Tooltip,
+    useClipboard,
+    useToast
      } from '@chakra-ui/react'
 
 import htmr from 'htmr'
 
-import { FaCommentDots } from 'react-icons/fa'
+import { FaHeart, FaCommentDots , FaShareAlt, FaRegCopy} from 'react-icons/fa'
 
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery , useMutation} from '@apollo/client'
+
+import { useCookies } from 'react-cookie'
 
 import { fetchComments } from '../../../graphql/query'
+
+import { insertLike , deleteLike } from '../../../graphql/mutation'
 
 import { CommentEditor } from '../../../components'
 
@@ -29,7 +48,60 @@ export default function PostContainer(props) {
 
     const [openComment,setOpenComment] = useState(false)
 
-    const [getComments,{data : dataComments,loading : loadingComments}] = useLazyQuery(fetchComments)
+    const [likePost,setLikePost] = useState(false)
+
+    const [loadingLike,setLoadingLike] = useState(false)
+
+    const [cookies] = useCookies()
+
+    const [getComments,{
+        data : dataComments,
+        loading : loadingComments,
+        refetch}] = useLazyQuery(fetchComments)
+    
+    useEffect(()=>{
+       
+        for(let i= 0 ; i < post.likes.length ; i++){
+           
+            if(post.likes[i].uid === cookies.uid){
+                setLikePost(true)
+            }
+        
+        }
+    
+    },[post])
+
+    const [addLike] = useMutation(insertLike)
+    
+    const [removeLike] = useMutation(deleteLike)
+
+    const {onCopy} = useClipboard(('http://localhost:3000/post/' + post.post_id))
+
+    const toast = useToast()
+
+    const handleLike = () => {
+
+        setLoadingLike(true)
+        if(likePost){
+           return removeLike({variables:{
+                uid : cookies.uid,
+                post_id : post.post_id
+            }}).then(()=>{
+                setLoadingLike(false)
+                setLikePost(false)
+            })
+        }
+        if(!likePost){
+           return addLike({variables:{
+                uid : cookies.uid,
+                post_id : post.post_id
+            }}).then(()=>{
+                setLoadingLike(false)
+                setLikePost(true)
+            })
+        }    
+
+    }
 
     const handleOpenComment = () => {
 
@@ -50,48 +122,152 @@ export default function PostContainer(props) {
         }
         
     }
+
+
+    const handleSendComment = () =>{
+
+        refetch()
+
+    }
+
+    const handleCopyShare = () =>{
+
+        onCopy()
+
+        toast({
+            title: "Yay,Link has been copied",
+            variant : "solid",
+            status:"success",
+            isClosable : true,
+            duration : 5000,
+            position : "bottom"
+        })
+
+    }
   
     return (
 
         <>
 
             <Flex
-            flexDirection='column'
-            w={[300,500,700,800,1000]}
+            flexDir='column'
             boxShadow='around'
-            p='5'
             borderRadius='25px'
+            w={[300,500,700,800,1000]}
+            p={[5,10,20,30,40,50]}
             >
-            
+
+
                 <Flex
                 alignItems='center'
                 gap='2'
+                pb='5'
                 >
-                
-                <Avatar
-                size='sm' 
-                src={post.user.user_avatar.avatar_url}/>
-                
-                <Text
-                >{post.user.username}</Text>
-                
+                    
+                    <Avatar
+                    size='sm' 
+                    src={post.user.user_avatar.avatar_url}/>
+                    
+                    <Text
+                    >{post.user.username}</Text>
+                    
                 </Flex>
 
                 <Flex
                 flexDirection='column'
                 gap='2'
-                p='5'
+                px='5'
+                maxH={[300,500,700,800,1000]}
+                overflowY='scroll'
                 >
+
                     {htmr(post.content)}
+                
                 </Flex>
 
-                <Button 
-                leftIcon={
-                    <Icon as={FaCommentDots}/>
-                }
-                onClick={handleOpenComment}
-                >{post.comments_aggregate.aggregate.count}</Button>
-            
+                <ButtonGroup
+                pt='5'
+                px='10'
+                justifyContent='space-between'
+                >
+
+                    <Button
+                    bg={likePost?'primary.100':'gray.100'}
+                    color={likePost?'white':'black'}
+                    isLoading={loadingLike}
+                    leftIcon={
+                        <Icon as={FaHeart}/>
+                    }
+                    onClick={handleLike}
+                    >{post.likes.length}</Button>
+
+                    <Button
+                    bg={openComment?'primary.100':'gray.100'}
+                    color={openComment?'white':'black'}
+                    leftIcon={
+                        <Icon as={FaCommentDots}/>
+                    }
+                    onClick={handleOpenComment}
+                    >{post.comments_aggregate.aggregate.count}</Button>
+
+                    <Popover>
+
+                        <PopoverTrigger>
+
+                            <Button
+                            leftIcon={
+                                <Icon as={FaShareAlt}/>
+                            }
+                            >Share</Button>
+
+                        </PopoverTrigger>
+
+                        <PopoverContent>
+                            
+                            <PopoverArrow/>
+
+                            <PopoverCloseButton/>
+
+                            <PopoverHeader>Share Post Link</PopoverHeader>
+
+                            <PopoverBody>
+
+                                <InputGroup>
+                                
+                                    <Input 
+                                    isReadOnly
+                                    value={('http://localhost:3000/post/' + post.post_id)}    
+                                    />
+
+                                    <InputRightElement>
+                                        
+                                        <Tooltip
+                                        hasArrow
+                                        label='Copy'
+                                        bg='white'
+                                        color='primary.100'
+                                        >
+
+                                            <IconButton
+                                            icon={<Icon
+                                                as={FaRegCopy}/>}
+                                            onClick={handleCopyShare}/>
+                                        
+                                        </Tooltip>
+
+                                    </InputRightElement>
+                                
+                                </InputGroup>
+                           
+                            </PopoverBody>
+
+                        </PopoverContent>
+
+                    </Popover>
+                    
+                
+                </ButtonGroup>
+
             </Flex>
 
             {loadingComments && 
@@ -109,28 +285,41 @@ export default function PostContainer(props) {
             {openComment &&
 
             <Flex
-            p='5'
-            gap='5'
             flexDir='column'
             >
+ 
+                <Flex
+                p='5'
+                gap='5'
+                flexDir='column'
+                alignItems='start'
+                >
 
-                {dataComments.comments.map((comment,index)=>(
-                    <Flex
-                    key={index}
-                    flexDir='column'
-                    px='5'
-                    py='2'
-                    borderRadius='25px'
-                    boxShadow='around'
-                    >
-                        <CommentContainer 
-                        comment={comment}/>
-                    
-                    </Flex>
-                ))}
-            
-                <CommentEditor/>
-            
+                    {dataComments.comments.map((comment,index)=>(
+                        <Flex
+                        key={index}
+                        flexDir='column'
+                        px='5'
+                        pt='4'
+                        pb='2'
+                        borderRadius='25px'
+                        boxShadow='around'
+                        >
+                            <CommentContainer 
+                            comment={comment}/>
+                        
+                        </Flex>
+                    ))}
+                
+                
+                </Flex>
+                
+                <CommentEditor
+                handleCancelComment={()=>{setOpenComment(false)}}
+                postId={post.post_id}
+                handleSendComment={handleSendComment}
+                />
+
             </Flex>
 
             }

@@ -43,7 +43,7 @@ export default function AddPostPage() {
             username={data.user[0].username}/>
 
             <Flex
-            mt='32'
+            mt='20'
             mb={isLargerThan550px?'32':'52'}
             flexDirection='column'
             alignItems='center'

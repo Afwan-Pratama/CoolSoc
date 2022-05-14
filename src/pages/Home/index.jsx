@@ -6,13 +6,15 @@ import {
   Flex,
 } from '@chakra-ui/react'
 
-import { useQuery } from '@apollo/client'
+import { useQuery , useSubscription } from '@apollo/client'
 
 import { useCookies } from 'react-cookie'
 
-import { fetchUserAndPosts } from '../../graphql/query'
+import { fetchUserData } from '../../graphql/query'
 
-import { Navbar , SpinnerPage , TextEditor} from '../../components'
+import { postSubcription } from '../../graphql/subsript'
+
+import { Navbar , SpinnerPage } from '../../components'
 
 import AddPost from './components/AddPost'
 import PostContainer from './components/PostContainer'
@@ -21,14 +23,18 @@ export default function Home() {
 
   const [cookies] = useCookies(["uid"])
 
-  const { data, loading } = useQuery(fetchUserAndPosts,{
+  const { data : dataUser , loading : loadingUser } = useQuery(fetchUserData,{
     variables: {
       uid : cookies.uid
     }
   })
 
-  if(loading) {
+  const { data : dataPost , loading : loadingPosts} = useSubscription(postSubcription)
+
+  if(loadingUser || loadingPosts) {
+
     return <SpinnerPage/>
+  
   }
 
   return (
@@ -40,8 +46,8 @@ export default function Home() {
     >
     
       <Navbar 
-      avatarUrl={data.user[0].user_avatar.avatar_url}
-      username={data.user[0].username}
+      avatarUrl={dataUser.user[0].user_avatar.avatar_url}
+      username={dataUser.user[0].username}
       />
 
       <Flex
@@ -53,7 +59,7 @@ export default function Home() {
 
       <AddPost/>
 
-      {data.posts.map((post,index)=>(
+      {dataPost.posts.map((post,index)=>(
 
         <Flex
         key={index}

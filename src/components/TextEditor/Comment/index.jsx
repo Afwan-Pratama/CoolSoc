@@ -1,11 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { 
   Box,
-  Button, 
   ButtonGroup, 
   Flex, 
-  Heading, 
   Icon, 
   useToast,
   useMediaQuery,
@@ -16,6 +14,7 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
+  Tooltip
   } from '@chakra-ui/react'
 
 import { useEditor, EditorContent } from '@tiptap/react'
@@ -45,9 +44,7 @@ import { useCookies } from 'react-cookie'
 
 import { useMutation } from '@apollo/client'
 
-import { insertPost } from '../../../graphql/mutation'
-
-import { useNavigate } from 'react-router-dom'
+import { insertComment } from '../../../graphql/mutation'
 
 import { 
   MdSend, 
@@ -66,21 +63,25 @@ import FormatBar from '../components/FormatBar'
 import AlignBar from '../components/AlignBar'
 import ListBar from '../components/ListBar'
 import InsertBar from '../components/InsertBar'
-import HistoryBar from '../components/HistoryBar'
 
-const CommentEditor = () => {
+const CommentEditor = (props) => {
+
+  const [loadingComment,setLoadingComment] = useState(false)
 
   const [isLargerThan550px] = useMediaQuery(
     '(min-width:550px)'
   )
 
+  const {
+    handleCancelComment,
+    postId,
+    handleSendComment}=props
+
   const [cookies] = useCookies()
 
   const toast = useToast()
 
-  const [ addPost,{loading : loadingSendPost} ] = useMutation(insertPost) 
-  
-  const navigate = useNavigate()
+  const [ addComment ] = useMutation(insertComment) 
 
   const editor = useEditor({
     extensions: [
@@ -122,24 +123,23 @@ const CommentEditor = () => {
     return null
   }
 
-  const cancelPost = () =>{
-  
-    navigate("/")
-  
-  }
-
   const sendToServer = () => {
+
+    setLoadingComment(true)
 
     const html = editor.getHTML()
 
-    addPost({
+    addComment({
       variables: {
+        post_id : postId,
         uid : cookies.uid,
         content : html
       }
     })
     .then(()=>{
-      navigate("/")
+      editor.commands.clearContent()
+      handleSendComment()
+      setLoadingComment(false)
     })
     .catch(()=>{
       toast({
@@ -151,6 +151,7 @@ const CommentEditor = () => {
         isClosable : true,
         duration : 5000
       })
+      setLoadingComment(false)
     })
   
   }
@@ -159,26 +160,12 @@ const CommentEditor = () => {
     
     <Flex
     flexDirection='column'
-    w={[300,500,700,800,1000]}
     boxShadow='around'
     borderRadius='25px'
     gap='5'
     p={isLargerThan550px?'5': '2'}
     >
     
-    <Box
-    boxShadow={isLargerThan550px?'around' : ''}
-    borderRadius='25px'
-    p={isLargerThan550px?'5':'2'}
-    >
-
-      <Heading
-      size='md'
-      textAlign='center'
-      pb={isLargerThan550px?'5':'2'}
-      > 
-      Text
-      </Heading>
 
       <Box
       boxShadow='around'
@@ -190,150 +177,214 @@ const CommentEditor = () => {
     
       </Box>
     
-    </Box>
-
+      <Flex
+      justifyContent='space-between'
+      flexDir={isLargerThan550px?'row':'column'}
+      gap='2'
+      >
         
-      <ButtonGroup>
-        
-        <Popover>
-
-              <PopoverTrigger>
-
-                <IconButton
-                icon={<Icon
-                  fontSize='xl'
-                  as={ImTextColor}/>}
-                />
-
-              </PopoverTrigger>
-                
-              <PopoverContent
-              borderRadius='25px'
-              p='4'
-              >
-
-                  <PopoverArrow/>
-
-                  <PopoverCloseButton/>
-                  
-                  <PopoverBody>
-
-                   <FormatBar editor={editor}/>
-              
-                  </PopoverBody>
-
-              </PopoverContent>
+        <ButtonGroup>
           
-        </Popover>
+          <Popover>
 
-        <Popover>
+                <PopoverTrigger>
 
-              <PopoverTrigger>
+                    <IconButton
+                    icon={<Icon
+                      fontSize='xl'
+                      as={ImTextColor}/>}
+                    />
+
+                </PopoverTrigger>
+                  
+                <PopoverContent
+                borderRadius='25px'
+                p='4'
+                >
+
+                    <PopoverArrow/>
+
+                    <PopoverCloseButton/>
+                    
+                    <PopoverBody>
+
+                    <FormatBar editor={editor}/>
+                
+                    </PopoverBody>
+
+                </PopoverContent>
+            
+          </Popover>
+
+          <Popover>
+
+                <PopoverTrigger>
+
+                    <IconButton
+                    icon={<Icon
+                      fontSize='xl'
+                      as={MdFormatAlignRight}/>}
+                    />
+
+                </PopoverTrigger>
+                  
+                <PopoverContent
+                borderRadius='25px'
+                p='4'
+                >
+
+                    <PopoverArrow/>
+
+                    <PopoverCloseButton/>
+                    
+                    <PopoverBody>
+
+                    <AlignBar editor={editor}/>
+                
+                    </PopoverBody>
+
+                </PopoverContent>
+            
+          </Popover>
+
+          <Popover>
+
+                <PopoverTrigger>
+
+                    <IconButton
+                    icon={<Icon
+                      fontSize='xl'
+                      as={MdList}/>}
+                    />
+                  
+                </PopoverTrigger>
+                  
+                <PopoverContent
+                borderRadius='25px'
+                p='4'
+                >
+
+                    <PopoverArrow/>
+
+                    <PopoverCloseButton/>
+                    
+                    <PopoverBody>
+
+                    <ListBar editor={editor}/>
+                
+                    </PopoverBody>
+
+                </PopoverContent>
+            
+          </Popover>
+
+          <Popover>
+
+                <PopoverTrigger>
+
+                    <IconButton
+                    icon={<Icon
+                      fontSize='xl'
+                      as={GoPlus}/>}
+                    />
+
+                </PopoverTrigger>
+                  
+                <PopoverContent
+                borderRadius='25px'
+                p='4'
+                >
+
+                    <PopoverArrow/>
+
+                    <PopoverCloseButton/>
+                    
+                    <PopoverBody>
+
+                    <InsertBar editor={editor}/>
+                
+                    </PopoverBody>
+
+                </PopoverContent>
+            
+          </Popover>
+
+          <Tooltip
+            hasArrow
+            label='Undo'
+            bg='white'
+            color='primary.100'
+          >
+
+            <IconButton
+            icon={<Icon
+              fontSize='xl'
+              as={FaUndo}/>}
+            onClick={()=>{editor.commands.undo()}}
+            />
+
+          </Tooltip>
+          
+          <Tooltip
+            hasArrow
+            label='Redo'
+            bg='white'
+            color='primary.100'
+            >
+
+            <IconButton
+            icon={<Icon
+              fontSize='xl'
+              as={FaRedoAlt}/>}
+            onClick={()=>{editor.commands.redo()}}
+            />
+          
+          </Tooltip>
+
+        </ButtonGroup>
+          
+        <ButtonGroup
+        justifyContent='flex-end'
+        >
+          
+            <Tooltip
+            hasArrow
+            label='Cancel Comment'
+            bg='white'
+            color='primary.100'
+            >
 
               <IconButton
               icon={<Icon
                 fontSize='xl'
-                as={MdFormatAlignRight}/>}
+                as={MdCancel}/>}
+              onClick={handleCancelComment}
               />
+            
+            </Tooltip>
 
-              </PopoverTrigger>
-                
-              <PopoverContent
-              borderRadius='25px'
-              p='4'
-              >
-
-                  <PopoverArrow/>
-
-                  <PopoverCloseButton/>
-                  
-                  <PopoverBody>
-
-                   <AlignBar editor={editor}/>
-              
-                  </PopoverBody>
-
-              </PopoverContent>
-          
-        </Popover>
-
-        <Popover>
-
-              <PopoverTrigger>
-
-                <IconButton
-                icon={<Icon
-                  fontSize='xl'
-                  as={MdList}/>}
-                />
-
-              </PopoverTrigger>
-                
-              <PopoverContent
-              borderRadius='25px'
-              p='4'
-              >
-
-                  <PopoverArrow/>
-
-                  <PopoverCloseButton/>
-                  
-                  <PopoverBody>
-
-                   <ListBar editor={editor}/>
-              
-                  </PopoverBody>
-
-              </PopoverContent>
-          
-        </Popover>
-
-        <Popover>
-
-              <PopoverTrigger>
+            <Tooltip
+            hasArrow
+            label='Send Comment'
+            bg='white'
+            color='primary.100'
+            >
 
               <IconButton
               icon={<Icon
                 fontSize='xl'
-                as={GoPlus}/>}
+                as={MdSend}/>}
+              onClick={sendToServer}
+              isDisabled={editor.isEmpty}
+              isLoading={loadingComment}
               />
+            
+            </Tooltip>
 
-              </PopoverTrigger>
-                
-              <PopoverContent
-              borderRadius='25px'
-              p='4'
-              >
+        </ButtonGroup>
+      
+      </Flex>
 
-                  <PopoverArrow/>
-
-                  <PopoverCloseButton/>
-                  
-                  <PopoverBody>
-
-                   <InsertBar editor={editor}/>
-              
-                  </PopoverBody>
-
-              </PopoverContent>
-          
-        </Popover>
-
-        <IconButton
-         icon={<Icon
-          fontSize='xl'
-          as={FaUndo}/>}
-        />
-
-        <IconButton
-         icon={<Icon
-          fontSize='xl'
-          as={FaRedoAlt}/>}
-        />
-
-      </ButtonGroup>
-
-    
     </Flex>
     
   )

@@ -35,3 +35,20 @@ mutation InsertComment($content: String, $post_id: uuid, $uid: String) {
   }
 }
 `
+
+export const insertLike = gql`
+mutation MyMutation($post_id: uuid, $uid: String) {
+  insert_likes_one(object: {post_id: $post_id, uid: $uid}) {
+    uid
+    post_id
+  }
+}
+`
+
+export const deleteLike = gql`
+mutation MyMutation($uid: String, $post_id: uuid) {
+  delete_likes(where: {uid: {_eq: $uid}, post_id: {_eq: $post_id}}) {
+    affected_rows
+  }
+}
+`

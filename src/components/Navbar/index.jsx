@@ -63,10 +63,10 @@ export default function Navbar(props) {
         alignItems='center'>
 
           <Box
-          w='300px'
+          w={[300,200,300,300,300]}
           bg='primary.100'
           color='white'
-          py='.25rem'
+          py='.2rem'
           borderRadius='25px'
           textAlign='center'
           >
@@ -80,7 +80,7 @@ export default function Navbar(props) {
           </Box>  
             
             <Flex 
-            w='300px'
+            w={[300,200,300,300,300]}
             alignItems='center'
             justifyContent='space-around'
             bg='primary.100'

@@ -156,22 +156,17 @@ const PostEditor = () => {
   }
 
   return (
-    
-    <Flex
-    flexDirection='column'
-    w={[300,500,700,800,1000]}
-    boxShadow='around'
-    borderRadius='25px'
-    gap='5'
-    p={isLargerThan550px?'5': '2'}
-    >
-
+    <>
       {isLargerThan550px &&
       <Flex
+      w={[300,450,700,800,1000]}
       flexDir='column'
       pb='5'
       boxShadow='around'
       borderRadius='25px'
+      position='fixed'
+      bg='white'
+      zIndex='10'
       >
 
         <Heading
@@ -211,239 +206,255 @@ const PostEditor = () => {
         
         </Flex>
       
-      </Flex> }
-    
-    <Box
-    boxShadow={isLargerThan550px?'around' : ''}
+    </Flex>}
+
+    <Flex
+    flexDirection='column'
+    w={[300,450,700,800,1000]}
+    boxShadow='around'
     borderRadius='25px'
-    p={isLargerThan550px?'5':'2'}
+    gap='5'
+    p={isLargerThan550px?'5': '2'}
+    mt={[50,320,320,320,200]}
     >
-
-      <Heading
-      size='md'
-      textAlign='center'
-      pb={isLargerThan550px?'5':'2'}
-      > 
-      Text
-      </Heading>
-
+    
       <Box
-      boxShadow='around'
+      boxShadow={isLargerThan550px?'around' : ''}
       borderRadius='25px'
-      p='5'
+      p={isLargerThan550px?'5':'2'}
       >
 
-        <EditorContent editor={editor} />
-    
+        <Heading
+        size='md'
+        textAlign='center'
+        pb={isLargerThan550px?'5':'2'}
+        > 
+        Text
+        </Heading>
+
+        <Box
+        boxShadow='around'
+        borderRadius='25px'
+        p='5'
+        >
+
+          <EditorContent editor={editor} />
+      
+        </Box>
+      
       </Box>
-    
-    </Box>
 
-    {!isLargerThan550px && 
-        
-        <ButtonGroup>
-        
-        <Popover>
+      {!isLargerThan550px && 
+          
+          <ButtonGroup>
+          
+          <Popover>
 
-              <PopoverTrigger>
+                <PopoverTrigger>
+
+                  <IconButton
+                  icon={<Icon
+                    fontSize='xl'
+                    as={ImTextColor}/>}
+                  />
+
+                </PopoverTrigger>
+                  
+                <PopoverContent
+                borderRadius='25px'
+                p='4'
+                >
+
+                    <PopoverArrow/>
+
+                    <PopoverCloseButton/>
+                    
+                    <PopoverBody>
+
+                    <FormatBar editor={editor}/>
+                
+                    </PopoverBody>
+
+                </PopoverContent>
+            
+          </Popover>
+
+          <Popover>
+
+                <PopoverTrigger>
 
                 <IconButton
                 icon={<Icon
                   fontSize='xl'
-                  as={ImTextColor}/>}
+                  as={MdFormatAlignRight}/>}
                 />
 
-              </PopoverTrigger>
-                
-              <PopoverContent
-              borderRadius='25px'
-              p='4'
-              >
-
-                  <PopoverArrow/>
-
-                  <PopoverCloseButton/>
+                </PopoverTrigger>
                   
-                  <PopoverBody>
+                <PopoverContent
+                borderRadius='25px'
+                p='4'
+                >
 
-                   <FormatBar editor={editor}/>
-              
-                  </PopoverBody>
+                    <PopoverArrow/>
 
-              </PopoverContent>
-          
-        </Popover>
+                    <PopoverCloseButton/>
+                    
+                    <PopoverBody>
 
-        <Popover>
-
-              <PopoverTrigger>
-
-              <IconButton
-              icon={<Icon
-                fontSize='xl'
-                as={MdFormatAlignRight}/>}
-              />
-
-              </PopoverTrigger>
+                    <AlignBar editor={editor}/>
                 
-              <PopoverContent
-              borderRadius='25px'
-              p='4'
-              >
+                    </PopoverBody>
 
-                  <PopoverArrow/>
+                </PopoverContent>
+            
+          </Popover>
 
-                  <PopoverCloseButton/>
+          <Popover>
+
+                <PopoverTrigger>
+
+                  <IconButton
+                  icon={<Icon
+                    fontSize='xl'
+                    as={MdList}/>}
+                  />
+
+                </PopoverTrigger>
                   
-                  <PopoverBody>
+                <PopoverContent
+                borderRadius='25px'
+                p='4'
+                >
 
-                   <AlignBar editor={editor}/>
-              
-                  </PopoverBody>
+                    <PopoverArrow/>
 
-              </PopoverContent>
-          
-        </Popover>
+                    <PopoverCloseButton/>
+                    
+                    <PopoverBody>
 
-        <Popover>
+                    <ListBar editor={editor}/>
+                
+                    </PopoverBody>
 
-              <PopoverTrigger>
+                </PopoverContent>
+            
+          </Popover>
+
+          <Popover>
+
+                <PopoverTrigger>
 
                 <IconButton
                 icon={<Icon
                   fontSize='xl'
-                  as={MdList}/>}
+                  as={GoPlus}/>}
                 />
 
-              </PopoverTrigger>
-                
-              <PopoverContent
-              borderRadius='25px'
-              p='4'
-              >
-
-                  <PopoverArrow/>
-
-                  <PopoverCloseButton/>
+                </PopoverTrigger>
                   
-                  <PopoverBody>
+                <PopoverContent
+                borderRadius='25px'
+                p='4'
+                >
 
-                   <ListBar editor={editor}/>
-              
-                  </PopoverBody>
+                    <PopoverArrow/>
 
-              </PopoverContent>
-          
-        </Popover>
+                    <PopoverCloseButton/>
+                    
+                    <PopoverBody>
 
-        <Popover>
-
-              <PopoverTrigger>
-
-              <IconButton
-              icon={<Icon
-                fontSize='xl'
-                as={GoPlus}/>}
-              />
-
-              </PopoverTrigger>
+                    <InsertBar editor={editor}/>
                 
-              <PopoverContent
-              borderRadius='25px'
-              p='4'
-              >
+                    </PopoverBody>
 
-                  <PopoverArrow/>
+                </PopoverContent>
+            
+          </Popover>
 
-                  <PopoverCloseButton/>
-                  
-                  <PopoverBody>
+          <IconButton
+          icon={<Icon
+            fontSize='xl'
+            as={FaUndo}/>}
+          onClick={()=>editor.commands.undo()}
+          />
 
-                   <InsertBar editor={editor}/>
-              
-                  </PopoverBody>
+          <IconButton
+          icon={<Icon
+            fontSize='xl'
+            as={FaRedoAlt}/>}
+          onClick={()=>editor.commands.redo()}
+          />
 
-              </PopoverContent>
-          
-        </Popover>
-
-        <IconButton
-         icon={<Icon
-          fontSize='xl'
-          as={FaUndo}/>}
-        />
-
-        <IconButton
-         icon={<Icon
-          fontSize='xl'
-          as={FaRedoAlt}/>}
-        />
-
-        </ButtonGroup>
-    
-    }
-
-    {isLargerThan550px &&
-    
-    <ButtonGroup
-    justifyContent='space-between'
-    flexDir='row-reverse'
-    >
-
-      <Button 
-      onClick={sendToServer}
-      isLoading={loadingSendPost}
-      leftIcon={
-        <Icon
-        as={MdSend}
-        />
+          </ButtonGroup>
+      
       }
-      >Post</Button>
 
-      <Button
-      onClick={cancelPost}
-      rightIcon={
-        <Icon
-        as={MdCancel}
-        />
-      }
+      {isLargerThan550px &&
+      
+      <ButtonGroup
+      justifyContent='space-between'
+      flexDir='row-reverse'
       >
-        Cancel
-      </Button>
-    
-    </ButtonGroup> }
 
-    {!isLargerThan550px &&
-
-    <ButtonGroup
-    position='fixed'
-    bottom='5'
-    right='5'
-    zIndex='10'
-    >
-    
-      <IconButton
-        icon={<Icon
-          fontSize='xl'
-          as={MdCancel}/>}
-        onClick={cancelPost}
-      />
-
-      <IconButton
-        icon={<Icon
-          fontSize='xl'
-          as={MdSend}/>}
+        <Button 
         onClick={sendToServer}
         isLoading={loadingSendPost}
-      />
+        leftIcon={
+          <Icon
+          as={MdSend}
+          />
+        }
+        >Post</Button>
 
-    </ButtonGroup>
+        <Button
+        onClick={cancelPost}
+        rightIcon={
+          <Icon
+          as={MdCancel}
+          />
+        }
+        >
+          Cancel
+        </Button>
+      
+      </ButtonGroup> }
 
-    }
+      {!isLargerThan550px &&
 
-    
+      <ButtonGroup
+      position='fixed'
+      bottom='5'
+      right='5'
+      zIndex='10'
+      >
+      
+        <IconButton
+        size='lg'
+          icon={<Icon
+            fontSize='xl'
+            as={MdCancel}/>}
+          onClick={cancelPost}
+        />
+
+        <IconButton
+        size='lg'
+          icon={<Icon
+            fontSize='xl'
+            as={MdSend}/>}
+          onClick={sendToServer}
+          isLoading={loadingSendPost}
+        />
+
+      </ButtonGroup>
+
+      }
+
+
     </Flex>
+  
     
+  </>
   )
 }
 
