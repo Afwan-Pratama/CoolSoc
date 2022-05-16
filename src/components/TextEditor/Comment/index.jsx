@@ -75,7 +75,8 @@ const CommentEditor = (props) => {
   const {
     handleCancelComment,
     postId,
-    handleSendComment}=props
+    handleSendComment,
+    disableCancel}=props
 
   const [cookies] = useCookies()
 
@@ -163,6 +164,7 @@ const CommentEditor = (props) => {
     boxShadow='around'
     borderRadius='25px'
     gap='5'
+    w={[300,450,700,800,1000]}
     p={isLargerThan550px?'5': '2'}
     >
     
@@ -346,7 +348,7 @@ const CommentEditor = (props) => {
         <ButtonGroup
         justifyContent='flex-end'
         >
-          
+          {!disableCancel &&
             <Tooltip
             hasArrow
             label='Cancel Comment'
@@ -361,7 +363,7 @@ const CommentEditor = (props) => {
               onClick={handleCancelComment}
               />
             
-            </Tooltip>
+            </Tooltip> }
 
             <Tooltip
             hasArrow

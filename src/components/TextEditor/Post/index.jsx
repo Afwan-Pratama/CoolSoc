@@ -71,7 +71,7 @@ import HistoryBar from '../components/HistoryBar'
 const PostEditor = () => {
 
   const [isLargerThan550px] = useMediaQuery(
-    '(min-width:550px)'
+    '(min-width:480px)'
   )
 
   const [cookies] = useCookies()
@@ -405,6 +405,7 @@ const PostEditor = () => {
           as={MdSend}
           />
         }
+        isDisabled={editor.isEmpty}
         >Post</Button>
 
         <Button
@@ -442,8 +443,9 @@ const PostEditor = () => {
           icon={<Icon
             fontSize='xl'
             as={MdSend}/>}
-          onClick={sendToServer}
-          isLoading={loadingSendPost}
+        onClick={sendToServer}
+        isLoading={loadingSendPost}
+        isDisabled={editor.isEmpty}
         />
 
       </ButtonGroup>

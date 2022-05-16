@@ -25,7 +25,7 @@ export default function AddPost() {
         <>
 
             <Flex
-            w={[300,500,700,800,1000]}
+            w={[300,450,700,800,1000]}
             justifyContent='space-between'
             alignItems='center'
             boxShadow='around'

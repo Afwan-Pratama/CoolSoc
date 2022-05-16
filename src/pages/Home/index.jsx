@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 
 import {
   Flex,
+  useMediaQuery
 } from '@chakra-ui/react'
 
 import { useQuery , useSubscription } from '@apollo/client'
@@ -21,6 +22,8 @@ import PostContainer from './components/PostContainer'
 
 export default function Home() {
 
+  const [isLargerThan480px] = useMediaQuery('(min-width:480px)')
+
   const [cookies] = useCookies(["uid"])
 
   const { data : dataUser , loading : loadingUser } = useQuery(fetchUserData,{
@@ -30,7 +33,7 @@ export default function Home() {
   })
 
   const { data : dataPost , loading : loadingPosts} = useSubscription(postSubcription)
-
+  
   if(loadingUser || loadingPosts) {
 
     return <SpinnerPage/>
@@ -53,7 +56,7 @@ export default function Home() {
       <Flex
       flexDirection='column'
       alignItems='center'
-      m='20'
+      m={isLargerThan480px?'20':'32'}
       gap='10'
       >
 

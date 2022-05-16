@@ -153,8 +153,8 @@ export default function PostContainer(props) {
             flexDir='column'
             boxShadow='around'
             borderRadius='25px'
-            w={[300,500,700,800,1000]}
-            p={[5,10,20,30,40,50]}
+            w={[300,450,700,800,1000]}
+            p={[7,21,35]}
             >
 
 
@@ -177,7 +177,7 @@ export default function PostContainer(props) {
                 flexDirection='column'
                 gap='2'
                 px='5'
-                maxH={[300,500,700,800,1000]}
+                maxH={[300,450,700,800,1000]}
                 overflowY='scroll'
                 >
 
@@ -214,11 +214,10 @@ export default function PostContainer(props) {
 
                         <PopoverTrigger>
 
-                            <Button
-                            leftIcon={
-                                <Icon as={FaShareAlt}/>
-                            }
-                            >Share</Button>
+                            <IconButton
+                            icon={<Icon
+                                    as={FaShareAlt}/>}
+                            />
 
                         </PopoverTrigger>
 
@@ -296,7 +295,7 @@ export default function PostContainer(props) {
                 >
 
                     {dataComments.comments.map((comment,index)=>(
-                        <Flex
+                        <Flex  
                         key={index}
                         flexDir='column'
                         px='5'
@@ -304,6 +303,7 @@ export default function PostContainer(props) {
                         pb='2'
                         borderRadius='25px'
                         boxShadow='around'
+                        maxW={[250,400,650,750,950]}
                         >
                             <CommentContainer 
                             comment={comment}/>
@@ -318,6 +318,7 @@ export default function PostContainer(props) {
                 handleCancelComment={()=>{setOpenComment(false)}}
                 postId={post.post_id}
                 handleSendComment={handleSendComment}
+                disableCancel={false}
                 />
 
             </Flex>

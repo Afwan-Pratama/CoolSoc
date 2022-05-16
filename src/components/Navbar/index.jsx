@@ -10,7 +10,10 @@ import { Avatar,
         MenuButton,
         MenuDivider,
         MenuItem,
-        MenuList} from '@chakra-ui/react'
+        MenuList,
+        useMediaQuery,
+        Button,
+      } from '@chakra-ui/react'
 
 import { Link  as ReactLink , useNavigate} from 'react-router-dom'
 
@@ -29,9 +32,14 @@ export default function Navbar(props) {
   
   const { logOut } = useAuth()
 
+  const [isLargerThan480px] = useMediaQuery('(min-width:480px)')
+
   const navigate = useNavigate()
 
+  // eslint-disable-next-line no-unused-vars
   const [cookies,setCookie,removeCookies ] = useCookies()
+
+  const isLogin = cookies.uid
 
   const handleLogOut = async () =>{
 
@@ -60,15 +68,21 @@ export default function Navbar(props) {
         <Flex 
         w='full'
         justifyContent='space-between'
-        alignItems='center'>
+        alignItems='center'
+        flexDir={isLargerThan480px?'row':'column'}
+        bg={isLargerThan480px?'':'primary.100'}
+        borderRadius='25px'
+        boxShadow={isLargerThan480px?'':'around'}
+        >
 
           <Box
-          w={[300,200,300,300,300]}
+          w={[280,180,300,300,300]}
           bg='primary.100'
           color='white'
-          py='.2rem'
+          py={isLogin?'.2rem':'.7rem'}
           borderRadius='25px'
           textAlign='center'
+          boxShadow={isLargerThan480px?'around':''}
           >
 
             <Heading
@@ -80,78 +94,107 @@ export default function Navbar(props) {
           </Box>  
             
             <Flex 
-            w={[300,200,300,300,300]}
+            w={[280,180,300,300,300]}
             alignItems='center'
             justifyContent='space-around'
             bg='primary.100'
             py='.35rem'
             borderRadius='25px'
+            boxShadow={isLargerThan480px?'around':''}
             >
+                
+                {!isLogin && 
 
-                <Link as={ReactLink} to='/'>
-                
-                  <Icon 
-                  color='white'
-                  fontSize='xl'
-                  as={RiHome2Line} />
-                
-                </Link>
-                
-                <Link>
-                
-                  <Icon 
-                  color='white'
-                  fontSize='xl'
-                  as={RiNotification2Line}/>
-                
-                </Link>
-                
-                <Menu>
+                  <>
 
-                  <MenuButton>
+                    <Button
+                    onClick={()=>navigate('/sign-up')}
+                    >
+                      Sign Up
+                    </Button>
 
-                    <Avatar 
-                    size='xs'
-                    src={avatarUrl}
-                    />
+                    <Button
+                    onClick={()=>navigate('/sign-in')}
+                    >
+                      Sign In
+                    </Button>
                   
-                  </MenuButton>
-            
-                  <MenuList>
-                    
-                    <MenuItem
-                    display='flex'
-                    alignItems='center'
-                    gap='5'
-                    >
-                    
-                    <Icon 
-                    fontSize='xl'
-                    as={RiAccountCircleLine}/>
-                    {username}
-                    
-                    </MenuItem>
-                    
-                    <MenuDivider/>
+                  </>
+                
+                }
 
-                    <MenuItem
-                    display='flex'
-                    alignItems='center'
-                    gap='5'
-                    onClick={handleLogOut}
-                    >
-                    
-                    <Icon 
-                    fontSize='xl'
-                    as={RiLogoutCircleLine}/>
-            
-                      Log Out
-                    
-                    </MenuItem>
-            
-                  </MenuList>
+                {isLogin && 
+                
+                <>
 
-                </Menu>
+                  <Link as={ReactLink} to='/'>
+                  
+                    <Icon 
+                    color='white'
+                    fontSize='xl'
+                    as={RiHome2Line} />
+                  
+                  </Link>
+                  
+                  <Link>
+                  
+                    <Icon 
+                    color='white'
+                    fontSize='xl'
+                    as={RiNotification2Line}/>
+                  
+                  </Link>
+                  
+                  <Menu>
+
+                    <MenuButton>
+
+                      <Avatar 
+                      size='xs'
+                      src={avatarUrl}
+                      />
+                    
+                    </MenuButton>
+              
+                    <MenuList>
+                      
+                      <MenuItem
+                      display='flex'
+                      alignItems='center'
+                      gap='5'
+                      >
+                      
+                      <Icon 
+                      fontSize='xl'
+                      as={RiAccountCircleLine}/>
+                      {username}
+                      
+                      </MenuItem>
+                      
+                      <MenuDivider/>
+
+                      <MenuItem
+                      display='flex'
+                      alignItems='center'
+                      gap='5'
+                      onClick={handleLogOut}
+                      >
+                      
+                      <Icon 
+                      fontSize='xl'
+                      as={RiLogoutCircleLine}/>
+              
+                        Log Out
+                      
+                      </MenuItem>
+              
+                    </MenuList>
+
+                  </Menu>
+                
+                </>
+                
+                }
             
             </Flex>
         

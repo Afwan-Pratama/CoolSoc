@@ -86,3 +86,35 @@ query fetchComments($post_id: uuid) {
   }
 } 
 `
+export const fetchPostOne = gql`
+query fetchPostOne($post_id: uuid) {
+  posts(where: {post_id: {_eq: $post_id}}) {
+    post_id
+    uid
+    content
+    user {
+      username
+      user_avatar {
+        avatar_url
+      }
+    }
+    comments_aggregate {
+      aggregate {
+        count
+      }
+    }
+    likes {
+      uid
+    }
+    comments {
+      content
+      user {
+        username
+        user_avatar{
+          avatar_url
+        }
+      }
+    }
+  }
+}
+`
