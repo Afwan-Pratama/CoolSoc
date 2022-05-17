@@ -77,7 +77,7 @@ export default function PostContainer(props) {
     
     const [removeLike] = useMutation(deleteLike)
 
-    const {onCopy} = useClipboard(('http://localhost:3000/post/' + post.post_id))
+    const {onCopy} = useClipboard(('https://cool-soc.vercel.app/post/' + post.post_id))
 
     const toast = useToast()
 
@@ -241,7 +241,7 @@ export default function PostContainer(props) {
                                 
                                     <Input 
                                     isReadOnly
-                                    value={('http://localhost:3000/post/' + post.post_id)}    
+                                    value={('https://cool-soc.vercel.app/post/' + post.post_id)}    
                                     />
 
                                     <InputRightElement>

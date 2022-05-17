@@ -14,7 +14,8 @@ import {
     InputRightElement,
     Icon,
     useToast,
-    Link } from '@chakra-ui/react'
+    Link,
+    useMediaQuery } from '@chakra-ui/react'
 
 import { useNavigate , Link as ReactLink} from 'react-router-dom'
 
@@ -48,6 +49,8 @@ export default function SignInContainer() {
     const toast = useToast()
 
     const dispatch = useDispatch()
+
+    const {isLargerThan850px} = useMediaQuery('(min-width:850px)')
 
     const { login , signGoogle} = useAuth()
 
@@ -130,7 +133,6 @@ export default function SignInContainer() {
 
         .then(async (result)=>{
             
-            console.log(result.user)
             await getUID({variables:{
                 uid : result.user.uid
             }}).then((response)=>{
@@ -166,14 +168,13 @@ export default function SignInContainer() {
     }
 
   return (
-    <Flex
-            w='50%'
-            
+            <Flex
+            w={isLargerThan850px?'50%':''}          
             flexDirection='column'
             alignItems='center'
             justifyContent='center'
             gap='12'
-            px={[200, 100 , 75 , 100 , 150 , 200]}
+            px={[50, 100 , 75 , 100 , 150 , 200]}
             >
 
                 <Heading>Sign In</Heading>
@@ -266,7 +267,9 @@ export default function SignInContainer() {
                 >Or Continue With</Text>
 
                 <ButtonGroup
-                gap='12'>
+                gap='12'
+                flexDir={isLargerThan850px?'row':'column'}
+                >
                         
                         <Button
                         leftIcon={<Icon as={FcGoogle} />}

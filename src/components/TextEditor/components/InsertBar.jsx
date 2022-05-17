@@ -195,7 +195,7 @@ export default function InsertBar(props) {
 
           <Tooltip
           hasArrow
-          label='Horintal Rule'
+          label='Horizontal Rule'
           bg='white'
           color='primary.100'      
           >
