@@ -131,21 +131,29 @@ export default function AnimatedRoute() {
 
                 <Route index element={
 
-                  <NextUIProvider>
+                  <AuthAfterSignUp>
 
-                    <ViewProfile/>
-                 
-                  </NextUIProvider>
+                    <NextUIProvider>
+
+                      <ViewProfile/>
+                  
+                    </NextUIProvider>
+                  
+                  </AuthAfterSignUp>
 
                 }/>
 
                 <Route path=':page' element={
+                  
+                  <AuthAfterSignUp>
 
                     <NextUIProvider>
 
                       <ViewProfile/>
 
                     </NextUIProvider>
+                  
+                  </AuthAfterSignUp>
 
                 } />
 
