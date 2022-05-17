@@ -130,7 +130,6 @@ export default function SignInContainer() {
 
         .then(async (result)=>{
             
-            console.log(result.user)
             await getUID({variables:{
                 uid : result.user.uid
             }}).then((response)=>{
@@ -166,9 +165,8 @@ export default function SignInContainer() {
     }
 
   return (
-    <Flex
-            w='50%'
-            
+            <Flex
+            w='50%'          
             flexDirection='column'
             alignItems='center'
             justifyContent='center'
