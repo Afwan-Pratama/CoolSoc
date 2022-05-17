@@ -35,13 +35,14 @@ query fetchUserData($uid: String = "") {
     }
     user_avatar {
       avatar_url
+      background_url
     }
   }
 }
 `
 
 export const fetchUserAndPosts = gql`
-query fetchUserAndPosts($uid: String) {
+query fetchUserAndPosts($uid: String, $limit: Int , $offset: Int,) {
   user(where: {uid: {_eq: $uid}}) {
     uid
     username
@@ -53,7 +54,7 @@ query fetchUserAndPosts($uid: String) {
       last_name
     }
   }
-  posts {
+  posts(limit: $limit , offset: $offset , order_by: {created_at: desc}) {
     post_id
     uid
     content
@@ -67,6 +68,15 @@ query fetchUserAndPosts($uid: String) {
       aggregate {
         count
       }
+    }
+    likes {
+      post_id
+      uid
+    }
+  }
+  posts_aggregate {
+    aggregate {
+      count
     }
   }
 }

@@ -4,6 +4,10 @@ import { Routes , Route } from 'react-router-dom'
 
 import { AnimatePresence } from 'framer-motion'
 
+import {
+  NextUIProvider
+} from '@nextui-org/react'
+
 import { 
   AuthAfterSignUp,
   AuthOnSignIn,
@@ -17,6 +21,7 @@ import SignUpGoogle from '../../pages/SignUpGoogle'
 import ForgotPassword from '../../pages/ForgotPassword'
 import AddPostPage from '../../pages/AddPostPages'
 import DetailPost from '../../pages/DetailPost'
+import UpdateProfile from '../../pages/UpdateProfile'
 
 export default function AnimatedRoute() {
 
@@ -30,8 +35,12 @@ export default function AnimatedRoute() {
               <Route index element={
               
               <AuthAfterSignUp>
-              
-                <Home/>
+
+                <NextUIProvider>
+      
+                  <Home/>
+  
+                </NextUIProvider>
               
               </AuthAfterSignUp>
               
@@ -41,7 +50,11 @@ export default function AnimatedRoute() {
 
               <AuthAfterSignUp>
                             
-               <Home/>
+                <NextUIProvider>
+      
+                  <Home/>
+  
+                </NextUIProvider>
 
               </AuthAfterSignUp>
 
@@ -102,6 +115,16 @@ export default function AnimatedRoute() {
                 <DetailPost />
                 
               }/>
+
+              <Route path='update-profile'element={
+               
+                <AuthAfterSignUp>
+
+                  <UpdateProfile/>
+
+                </AuthAfterSignUp>
+             
+            }/>
 
             </Route>      
         

@@ -198,6 +198,7 @@ const PostEditor = () => {
             
             <InsertBar
             editor={editor}
+            type='post'
             />
 
             <HistoryBar
@@ -364,7 +365,7 @@ const PostEditor = () => {
                     
                     <PopoverBody>
 
-                    <InsertBar editor={editor}/>
+                    <InsertBar type='comment' editor={editor}/>
                 
                     </PopoverBody>
 

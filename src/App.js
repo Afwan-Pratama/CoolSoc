@@ -22,7 +22,7 @@ function App() {
 
         <ChakraProvider theme={theme}>
 
-          <AnimatedRoute/>
+            <AnimatedRoute/>
         
         </ChakraProvider>
       </PersistGate>

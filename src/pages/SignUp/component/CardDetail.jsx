@@ -68,6 +68,7 @@ export default function CardDetail(props) {
 
     const [loading, setLoading] = useState(false)
 
+    // eslint-disable-next-line no-unused-vars
     const [ cookie, setCookie ] = useCookies(["uid"])
 
     const onChangeUsername = (e) =>{

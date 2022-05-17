@@ -41,6 +41,12 @@ export default function Navbar(props) {
 
   const isLogin = cookies.uid
 
+  const handleToUpdateProfile = () =>{
+
+    navigate('/update-profile')
+  
+  }
+
   const handleLogOut = async () =>{
 
     await logOut()
@@ -157,19 +163,34 @@ export default function Navbar(props) {
                     </MenuButton>
               
                     <MenuList>
-                      
-                      <MenuItem
+
+                    <MenuItem
                       display='flex'
                       alignItems='center'
                       gap='5'
                       >
                       
+                      <Avatar src={avatarUrl} size='2xs'/>
+                      {username}
+                      
+                    </MenuItem>
+
+                    <MenuDivider/>
+                      
+                    <MenuItem
+                      display='flex'
+                      alignItems='center'
+                      gap='5'
+                      onClick={handleToUpdateProfile}
+                    >
+
+                      
                       <Icon 
                       fontSize='xl'
                       as={RiAccountCircleLine}/>
-                      {username}
+                      Update Profile
                       
-                      </MenuItem>
+                    </MenuItem>
                       
                       <MenuDivider/>
 

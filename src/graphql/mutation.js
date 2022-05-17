@@ -52,3 +52,17 @@ mutation MyMutation($uid: String, $post_id: uuid) {
   }
 }
 `
+
+export const updateUser = gql`
+mutation updateUser($uid: String, $avatar_url: String, $background_url: String, $username: String, $first_name: String, $last_name: String) {
+  update_user(where: {uid: {_eq: $uid}}, _set: {username: $username}) {
+    affected_rows
+  }
+  update_user_details(where: {uid: {_eq: $uid}}, _set: {first_name: $first_name, last_name: $last_name}) {
+    affected_rows
+  }
+  update_user_avatars(where: {uid: {_eq: $uid}}, _set: {avatar_url: $avatar_url, background_url: $background_url}) {
+    affected_rows
+  }
+}
+`

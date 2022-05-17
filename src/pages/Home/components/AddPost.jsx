@@ -11,7 +11,7 @@ import { RiAddCircleLine } from 'react-icons/ri'
 import TypeWriterEffect from 'react-typewriter-effect'
 
 export default function AddPost() {
-    
+
     const navigate = useNavigate()
 
     const handleToAddPost = () =>{

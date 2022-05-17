@@ -16,7 +16,9 @@ import {
 
 import { useLazyQuery } from '@apollo/client'
 
-import { FaCheck , FaAngleRight , FaTimes} from 'react-icons/fa'
+import { FaCheck , FaTimes} from 'react-icons/fa'
+
+import {HiArrowRight} from 'react-icons/hi'
 
 export default function InputWithCheck(props) {
     
@@ -24,7 +26,7 @@ export default function InputWithCheck(props) {
 
     const initialCheck = {
         color : "gray.500",
-        icon : FaAngleRight,
+        icon : HiArrowRight,
         isValid : true,
         tooltip : ("Please Check Availability of Your " + typeInput) 
     }

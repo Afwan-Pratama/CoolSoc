@@ -40,7 +40,7 @@ import { useStateWithValidation } from '../../../hooks'
 
 export default function InsertBar(props) {
 
-  const {editor} = props
+  const {editor,type} = props
 
   const regexLink = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/
 
@@ -120,7 +120,7 @@ export default function InsertBar(props) {
     
     setLoadingUpload(true)
 
-    const storageRef = ref(storage,`images/${imageAsFile.name}-${cookies.uid}`)
+    const storageRef = ref(storage,`${type}/${imageAsFile.name}-${cookies.uid}`)
 
     const uploadTask = uploadBytesResumable(storageRef,imageAsFile)
 
@@ -152,7 +152,7 @@ export default function InsertBar(props) {
 
         toast({
           title : "Yay,Your Upload Image is Success",
-          description : "Lets see in the Editor",
+          description : "Let's see in the Editor",
           variant : "solid",
           status : "success",
           position : "bottom",

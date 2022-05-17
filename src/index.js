@@ -9,7 +9,7 @@ import { ApolloProvider } from '@apollo/client';
 
 import { CookiesProvider } from 'react-cookie'
 
-import client from './apollo-client';
+import apolloClient from './apollo-client';
 
 const elementRoot = document.getElementById('root')
 const root = createRoot(elementRoot)
@@ -17,7 +17,7 @@ const root = createRoot(elementRoot)
 root.render(
 
     <FirebaseProvider>
-      <ApolloProvider client={client}>
+      <ApolloProvider client={apolloClient}>
         <CookiesProvider>
           <ColorModeScript />
           <App />

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const postSubcription = gql`
-subscription getPosts {
-  posts {
+subscription getPosts($limit: Int) {
+  posts(limit: $limit) {
     post_id
     uid
     content

@@ -303,7 +303,7 @@ const CommentEditor = (props) => {
                     
                     <PopoverBody>
 
-                    <InsertBar editor={editor}/>
+                    <InsertBar type='comment' editor={editor}/>
                 
                     </PopoverBody>
 
@@ -351,7 +351,7 @@ const CommentEditor = (props) => {
           {!disableCancel &&
             <Tooltip
             hasArrow
-            label='Cancel Comment'
+            label='Close Comment'
             bg='white'
             color='primary.100'
             >

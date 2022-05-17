@@ -44,7 +44,7 @@ import CommentContainer from './CommentContainer'
 
 export default function PostContainer(props) {
     
-    const {post} = props
+    const {post,refetchPost} = props
 
     const [openComment,setOpenComment] = useState(false)
 
@@ -89,6 +89,7 @@ export default function PostContainer(props) {
             }}).then(()=>{
                 setLoadingLike(false)
                 setLikePost(false)
+                refetchPost()
             })
         }
         if(!likePost){
@@ -98,6 +99,7 @@ export default function PostContainer(props) {
             }}).then(()=>{
                 setLoadingLike(false)
                 setLikePost(true)
+                refetchPost()
             })
         }    
 

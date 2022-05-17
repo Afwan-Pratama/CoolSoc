@@ -2,7 +2,7 @@ import React, { useState , useEffect} from 'react'
 
 import { useParams } from 'react-router-dom'
 
-import  client  from '../../apollo-client'
+import apolloClient from '../../apollo-client'
 
 import { useCookies } from 'react-cookie'
 
@@ -34,16 +34,11 @@ export default function DetailPost() {
 
   const isLogin = cookies.uid
 
-  const fetchPost = () =>{
-
-    
-  }
-
   useEffect(()=>{
 
     if(isLogin){
 
-      client.query({
+      apolloClient.query({
         query : fetchUserData,
         variables : {
           uid : isLogin
@@ -60,7 +55,7 @@ export default function DetailPost() {
       
     }
 
-    client.query({
+    apolloClient.query({
       query: fetchPostOne,
       variables: {
         post_id : param.post_id
@@ -75,7 +70,6 @@ export default function DetailPost() {
       })
     
     })
-
     
   },[])
   

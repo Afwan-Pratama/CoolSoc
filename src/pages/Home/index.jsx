@@ -7,15 +7,17 @@ import {
   useMediaQuery
 } from '@chakra-ui/react'
 
-import { useQuery , useSubscription } from '@apollo/client'
+import { Pagination } from '@nextui-org/react'
+
+import { useNavigate , useParams } from 'react-router-dom'
+
+import { useQuery } from '@apollo/client'
 
 import { useCookies } from 'react-cookie'
 
-import { fetchUserData } from '../../graphql/query'
+import { fetchUserAndPosts } from '../../graphql/query'
 
-import { postSubcription } from '../../graphql/subsript'
-
-import { Navbar , SpinnerPage } from '../../components'
+import { Navbar , SpinnerPage} from '../../components'
 
 import AddPost from './components/AddPost'
 import PostContainer from './components/PostContainer'
@@ -26,18 +28,46 @@ export default function Home() {
 
   const [cookies] = useCookies(["uid"])
 
-  const { data : dataUser , loading : loadingUser } = useQuery(fetchUserData,{
+  const navigate = useNavigate()
+
+  const param = useParams()
+
+  const { data , loading , refetch } = useQuery(fetchUserAndPosts,{
     variables: {
-      uid : cookies.uid
-    }
+      uid : cookies.uid,
+      offset : (param.page*10 - 10) || 0,
+      limit : 10
+    },
   })
 
-  const { data : dataPost , loading : loadingPosts} = useSubscription(postSubcription)
-  
-  if(loadingUser || loadingPosts) {
+  if(loading) {
 
     return <SpinnerPage/>
   
+  }
+
+  let totalPage
+
+  if(data.posts_aggregate.aggregate.count % 10 > 0){
+    totalPage = parseInt((data.posts_aggregate.aggregate.count /10)+1)
+  }
+  else{
+    totalPage = parseInt(data.posts_aggregate.aggregate.count / 10)
+  }
+
+  const handleRefetchLike = () => {
+  
+    refetch()
+  
+  }
+
+  const handleChangePage = (e) =>{
+
+    if(e===1){
+      return navigate('/')
+    }
+    return navigate('/'+e)
+
   }
 
   return (
@@ -47,10 +77,10 @@ export default function Home() {
     animate={{opacity:1}}
     exit={{opacity:0}}
     >
-    
+
       <Navbar 
-      avatarUrl={dataUser.user[0].user_avatar.avatar_url}
-      username={dataUser.user[0].username}
+      avatarUrl={data.user[0].user_avatar.avatar_url}
+      username={data.user[0].username}
       />
 
       <Flex
@@ -60,23 +90,33 @@ export default function Home() {
       gap='10'
       >
 
-      <AddPost/>
+        <AddPost/>
 
-      {dataPost.posts.map((post,index)=>(
+        {data.posts.map((post,index)=>(
 
-        <Flex
-        key={index}
-        flexDirection='column'
-        >
+          <Flex
+          key={index}
+          flexDirection='column'
+          >
 
-        <PostContainer 
-        post={post}
-        /> 
+          <PostContainer 
+          post={post}
+          refetchPost={handleRefetchLike}
+          /> 
+        
+          </Flex>
+
+        ))}
+
+        <Pagination 
+        size='lg' 
+        rounded 
+        shadow 
+        total={totalPage}
+        page={parseInt(param.page)}
+        onChange={handleChangePage}
+        />
       
-        </Flex>
-
-      ))}
-
       </Flex>
 
     </motion.div>
