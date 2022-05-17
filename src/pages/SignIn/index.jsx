@@ -17,8 +17,6 @@ import SignInContainer from './components/SignInContainer'
 export default function SignIn() {
 
     const [isLargerThan850px] = useMediaQuery('(min-width:850px)')
-
-    console.log(isLargerThan850px)
   
     return (
       <motion.div
