@@ -31,6 +31,7 @@ export default function CommentContainer(props) {
         <Flex
         px='5'
         py='2'
+        flexDir='column'
         >
 
         {htmr(comment.content)}
