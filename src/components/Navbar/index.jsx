@@ -1,17 +1,73 @@
 import React from 'react'
 
 import { Avatar, 
-        Box , 
+        Box ,
         Flex, 
         Heading, 
-        Link, 
-        Spacer  } from '@chakra-ui/react'
+        Icon, 
+        Link,
+        Menu,
+        MenuButton,
+        MenuDivider,
+        MenuItem,
+        MenuList,
+        useMediaQuery,
+        Button,
+      } from '@chakra-ui/react'
 
-import { Link  as ReactLink } from 'react-router-dom'
+import { Link  as ReactLink , useNavigate} from 'react-router-dom'
 
-export default function Navbar() {
+import { useCookies } from 'react-cookie'
+
+import { RiHome2Line , 
+  RiNotification2Line,
+  RiAccountCircleLine,
+  RiLogoutCircleLine } from 'react-icons/ri'
+  
+import { useAuth } from '../../context/FirebaseContext'
+
+export default function Navbar(props) {
+  
+  const { avatarUrl , username } = props
+  
+  const { logOut } = useAuth()
+
+  const [isLargerThan480px] = useMediaQuery('(min-width:480px)')
+
+  const navigate = useNavigate()
+
+  // eslint-disable-next-line no-unused-vars
+  const [cookies,setCookie,removeCookies ] = useCookies()
+
+  const isLogin = cookies.uid
+
+  const handleToProfile = () =>{
+
+    navigate('/user/'+ username)
+  
+  }
+
+  const handleToUpdateProfile = () =>{
+
+    navigate('/update-profile')
+  
+  }
+
+  const handleLogOut = async () =>{
+
+    await logOut()
+    removeCookies('uid',{
+      sameSite : 'none',
+      path: '/',
+      secure : true
+    })
+    navigate("/sign-in")
+
+  }
+
   return (
-    <Flex 
+    <Flex
+    top='0' 
     minWidth='full'
     alignItems='center'
     marginTop='1rem'
@@ -19,38 +75,160 @@ export default function Navbar() {
     zIndex={10}
     >
 
-        <Box w='1rem'/>
+        <Box w='3rem'/>
         
         <Flex 
         w='full'
-        bg='blackAlpha.100' 
         justifyContent='space-between'
-        borderRadius='25px'
         alignItems='center'
-        padding='0.25rem 4rem'>
-            
+        flexDir={isLargerThan480px?'row':'column'}
+        bg={isLargerThan480px?'':'primary.100'}
+        borderRadius='25px'
+        boxShadow={isLargerThan480px?'':'around'}
+        >
+
+          <Box
+          w={[280,180,300,300,300]}
+          bg='primary.100'
+          color='white'
+          py={isLogin?'.2rem':'.7rem'}
+          borderRadius='25px'
+          textAlign='center'
+          boxShadow={isLargerThan480px?'around':''}
+          >
+
             <Heading
-            size='lg'
+            fontSize='2xl'
             >
-            Merk
+            CoolSoc
             </Heading>
+          
+          </Box>  
             
             <Flex 
-            gap='30'
-            alignItems='center'>
-
-                <Flex>
-                    <Link as={ReactLink} to='/'>Home</Link>
-                </Flex>
+            w={[280,180,300,300,300]}
+            alignItems='center'
+            justifyContent='space-around'
+            bg='primary.100'
+            py='.35rem'
+            borderRadius='25px'
+            boxShadow={isLargerThan480px?'around':''}
+            >
                 
-                <Avatar 
-                size='sm'/>
+                {!isLogin && 
+
+                  <>
+
+                    <Button
+                    onClick={()=>navigate('/sign-up')}
+                    >
+                      Sign Up
+                    </Button>
+
+                    <Button
+                    onClick={()=>navigate('/sign-in')}
+                    >
+                      Sign In
+                    </Button>
+                  
+                  </>
+                
+                }
+
+                {isLogin && 
+                
+                <>
+
+                  <Link as={ReactLink} to='/'>
+                  
+                    <Icon 
+                    color='white'
+                    fontSize='xl'
+                    as={RiHome2Line} />
+                  
+                  </Link>
+                  
+                  <Link>
+                  
+                    <Icon 
+                    color='white'
+                    fontSize='xl'
+                    as={RiNotification2Line}/>
+                  
+                  </Link>
+                  
+                  <Menu>
+
+                    <MenuButton>
+
+                      <Avatar 
+                      size='xs'
+                      src={avatarUrl}
+                      />
+                    
+                    </MenuButton>
+              
+                    <MenuList>
+
+                    <MenuItem
+                      display='flex'
+                      alignItems='center'
+                      gap='5'
+                      onClick={handleToProfile}
+                      >
+                      
+                      <Avatar src={avatarUrl} size='2xs'/>
+                      {username}
+                      
+                    </MenuItem>
+
+                    <MenuDivider/>
+                      
+                    <MenuItem
+                      display='flex'
+                      alignItems='center'
+                      gap='5'
+                      onClick={handleToUpdateProfile}
+                    >
+
+                      
+                      <Icon 
+                      fontSize='xl'
+                      as={RiAccountCircleLine}/>
+                      Update Profile
+                      
+                    </MenuItem>
+                      
+                      <MenuDivider/>
+
+                      <MenuItem
+                      display='flex'
+                      alignItems='center'
+                      gap='5'
+                      onClick={handleLogOut}
+                      >
+                      
+                      <Icon 
+                      fontSize='xl'
+                      as={RiLogoutCircleLine}/>
+              
+                        Log Out
+                      
+                      </MenuItem>
+              
+                    </MenuList>
+
+                  </Menu>
+                
+                </>
+                
+                }
             
             </Flex>
         
         </Flex>
         
-        <Box w='1rem' float='right'/>
+        <Box w='3rem' float='right'/>
     
     </Flex>
   )
