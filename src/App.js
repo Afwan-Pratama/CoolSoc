@@ -13,6 +13,8 @@ import { AnimatedRoute } from './components'
 
 import { store , persistor} from './store'
 
+import './style/style.css'
+
 function App() {
   return (
   
