@@ -269,7 +269,6 @@ export default function SignInContainer() {
                 <ButtonGroup
                 gap='12'
                 flexDir={isLargerThan850px?'row':'column'}
-                justifyContent={isLargerThan850px?'':'center'}
                 >
                         
                         <Button
