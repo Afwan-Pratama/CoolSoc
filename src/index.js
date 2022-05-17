@@ -1,5 +1,5 @@
 import { ColorModeScript } from '@chakra-ui/react';
-import React, { StrictMode } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 
@@ -7,18 +7,22 @@ import { FirebaseProvider } from './context/FirebaseContext';
 
 import { ApolloProvider } from '@apollo/client';
 
-import client from './apollo-client';
+import { CookiesProvider } from 'react-cookie'
+
+import apolloClient from './provider/apollo-client';
 
 const elementRoot = document.getElementById('root')
 const root = createRoot(elementRoot)
 
 root.render(
-  <StrictMode>
+
     <FirebaseProvider>
-      <ApolloProvider client={client}>
-        <ColorModeScript />
-        <App />
+      <ApolloProvider client={apolloClient}>
+        <CookiesProvider>
+          <ColorModeScript />
+          <App />
+        </CookiesProvider>
       </ApolloProvider>
     </FirebaseProvider>
-  </StrictMode>
+
 );

@@ -30,7 +30,7 @@ import { addUserLocal , deleteUserLocal} from '../../../store/Slices/UserSlice'
 
 import InputWithCheck from '../../../components/InputWithCheck'
 
-export default function Card1(props) {
+export default function CardSetup(props) {
 
     const {form,handleNext} = props
 
@@ -70,7 +70,7 @@ export default function Card1(props) {
     const [ showPassword, setShowPassword] = useState(false)
 
     const [ isPasswordConfirmValid, setIsPasswordConfirmValid ] = useState(false)
-    
+
     const onChangeEmail = (e) =>{
      
       setEmail(e)

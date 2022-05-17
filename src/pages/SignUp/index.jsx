@@ -7,8 +7,8 @@ import {
 
 import { motion } from 'framer-motion'
 
-import Card1 from './component/Card1'
-import Card2 from './component/Card2'
+import CardSetup from './component/CardSetup'
+import CardDetail from './component/CardDetail'
 
 export default function SignUp() {
 
@@ -133,11 +133,11 @@ export default function SignUp() {
         
         </Flex>
         
-        {form.one.slide &&  <Card1 
+        {form.one.slide &&  <CardSetup
         form={form.one} 
         handleNext={handleNext}/>}
 
-       {form.two.slide && <Card2
+       {form.two.slide && <CardDetail
         form={form.two}
         handlePrevious={handlePrevious}/>
        }

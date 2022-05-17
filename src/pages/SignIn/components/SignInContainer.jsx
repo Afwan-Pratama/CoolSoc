@@ -22,6 +22,8 @@ import { useLazyQuery } from '@apollo/client'
 
 import { useDispatch } from 'react-redux'
 
+import { useCookies } from 'react-cookie'
+
 import { FaRegEye , FaRegEyeSlash, FaTwitter } from 'react-icons/fa'
 
 import { FcGoogle } from 'react-icons/fc'
@@ -66,6 +68,9 @@ export default function SignInContainer() {
     })
 
     const [getUID] = useLazyQuery(fetchUID)
+
+    // eslint-disable-next-line no-unused-vars
+    const [cookie,setCookie] = useCookies(["uid"])
     
     const toggleShowPassword = () =>{
         setShowPassword((prev)=> !prev)
@@ -79,7 +84,12 @@ export default function SignInContainer() {
         
         await login(email,password)
         
-        .then(()=>{
+        .then((result)=>{
+            setCookie("uid",result.user.uid,{
+                path: "/",
+                sameSite : "none",
+                secure : true
+              })
             navigate("/")
         })
         
@@ -126,10 +136,15 @@ export default function SignInContainer() {
             }}).then((response)=>{
                 if(response.data.user.length === 0){
                     dispatch(addIncompletedSignUp())
-                    navigate('/personal-details')
+                    navigate("/personal-details")
                 }
                 if(response.data.user.length > 0) {
-                    navigate('/')
+                    setCookie("uid",result.user.uid,{
+                        path: "/",
+                        sameSite : "none",
+                        secure : true
+                      })
+                    navigate("/")
                 }
             })
         })
