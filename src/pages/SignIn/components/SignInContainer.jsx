@@ -69,6 +69,7 @@ export default function SignInContainer() {
 
     const [getUID] = useLazyQuery(fetchUID)
 
+    // eslint-disable-next-line no-unused-vars
     const [cookie,setCookie] = useCookies(["uid"])
     
     const toggleShowPassword = () =>{

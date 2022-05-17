@@ -9,7 +9,7 @@ import { ApolloProvider } from '@apollo/client';
 
 import { CookiesProvider } from 'react-cookie'
 
-import apolloClient from './apollo-client';
+import apolloClient from './provider/apollo-client';
 
 const elementRoot = document.getElementById('root')
 const root = createRoot(elementRoot)

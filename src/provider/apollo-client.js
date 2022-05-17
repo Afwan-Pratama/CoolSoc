@@ -6,7 +6,7 @@ import {
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { split, HttpLink } from '@apollo/client';
-import { getMainDefinition , offsetLimitPagination} from '@apollo/client/utilities';
+import { getMainDefinition} from '@apollo/client/utilities';
 
   const httpLink = new HttpLink({
     uri: process.env.REACT_APP_GRAPHQL_HTTP_END_POINT,
@@ -38,15 +38,7 @@ import { getMainDefinition , offsetLimitPagination} from '@apollo/client/utiliti
 
   const apolloClient = new ApolloClient({
     link : splitLink,
-    cache: new InMemoryCache({
-      typePolicies : {
-        Query : {
-          fields : {
-            fetchUserAndPosts : offsetLimitPagination()
-            }
-        }
-      }
-    }),
+    cache: new InMemoryCache(),
   });
 
   export default apolloClient

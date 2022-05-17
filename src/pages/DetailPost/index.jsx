@@ -2,7 +2,7 @@ import React, { useState , useEffect} from 'react'
 
 import { useParams } from 'react-router-dom'
 
-import apolloClient from '../../apollo-client'
+import apolloClient from '../../provider/apollo-client'
 
 import { useCookies } from 'react-cookie'
 

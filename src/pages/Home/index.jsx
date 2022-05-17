@@ -17,10 +17,9 @@ import { useCookies } from 'react-cookie'
 
 import { fetchUserAndPosts } from '../../graphql/query'
 
-import { Navbar , SpinnerPage} from '../../components'
+import { Navbar , SpinnerPage , PostContainer } from '../../components'
 
 import AddPost from './components/AddPost'
-import PostContainer from './components/PostContainer'
 
 export default function Home() {
 

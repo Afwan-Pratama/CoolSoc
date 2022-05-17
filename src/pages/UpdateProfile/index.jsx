@@ -8,7 +8,7 @@ import { useCookies } from 'react-cookie'
 
 import { useMutation } from '@apollo/client'
 
-import apolloClient from '../../apollo-client'
+import apolloClient from '../../provider/apollo-client'
 
 import { fetchUserData } from '../../graphql/query'
  

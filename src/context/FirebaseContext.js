@@ -1,5 +1,5 @@
 import React,{ useContext, useState ,useEffect} from 'react'
-import { auth , provider } from '../firebase'
+import { auth , provider } from '../provider/firebase'
 import { 
   sendPasswordResetEmail, 
   createUserWithEmailAndPassword , 

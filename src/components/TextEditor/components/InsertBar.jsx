@@ -34,7 +34,7 @@ import { ref , uploadBytesResumable , getDownloadURL} from 'firebase/storage'
 
 import { useCookies } from 'react-cookie'
 
-import { storage } from '../../../firebase'
+import { storage } from '../../../provider/firebase'
 
 import { useStateWithValidation } from '../../../hooks'
 

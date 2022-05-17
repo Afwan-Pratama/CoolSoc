@@ -21,13 +21,13 @@ import { ref , uploadBytesResumable , getDownloadURL} from 'firebase/storage'
 
 import { useCookies } from 'react-cookie'
 
-import { storage } from '../../../firebase'
+import { storage } from '../../../provider/firebase'
 
 import { BsPencil } from 'react-icons/bs'
 
 import { FaCheck } from 'react-icons/fa'
 
-import defaultBackground from '../assets/default.jpg'
+import defaultBackground from '../../../assets/default-bg.jpg'
 
 export default function BackgroundContainer(props) {
 

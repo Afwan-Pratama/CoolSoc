@@ -128,3 +128,50 @@ query fetchPostOne($post_id: uuid) {
   }
 }
 `
+
+export const fetchViewProfile = gql`
+query fetchViewProfile($username: String, $offset: Int, $limit: Int) {
+  user(where: {username: {_eq: $username}}) {
+    email
+    uid
+    username
+    user_avatar {
+      avatar_url
+      background_url
+    }
+    user_detail {
+      first_name
+      last_name
+    }
+    posts_aggregate {
+      aggregate {
+        count
+      }
+    }
+    comments_aggregate {
+      aggregate {
+        count
+      }
+    }
+    posts(offset: $offset, limit: $limit) {
+      post_id
+      content
+      user {
+        username
+        user_avatar {
+          avatar_url
+        }
+      }
+      likes {
+        post_id
+        uid
+      }
+      comments_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+}
+`

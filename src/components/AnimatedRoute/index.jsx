@@ -22,6 +22,7 @@ import ForgotPassword from '../../pages/ForgotPassword'
 import AddPostPage from '../../pages/AddPostPages'
 import DetailPost from '../../pages/DetailPost'
 import UpdateProfile from '../../pages/UpdateProfile'
+import ViewProfile from '../../pages/ViewProfile'
 
 export default function AnimatedRoute() {
 
@@ -124,7 +125,31 @@ export default function AnimatedRoute() {
 
                 </AuthAfterSignUp>
              
-            }/>
+              }/>
+
+              <Route path='user/:username/'>
+
+                <Route index element={
+
+                  <NextUIProvider>
+
+                    <ViewProfile/>
+                 
+                  </NextUIProvider>
+
+                }/>
+
+                <Route path=':page' element={
+
+                    <NextUIProvider>
+
+                      <ViewProfile/>
+
+                    </NextUIProvider>
+
+                } />
+
+              </Route>
 
             </Route>      
         

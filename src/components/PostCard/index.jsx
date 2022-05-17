@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { 
     Flex,
     Avatar,
-    Text,
+    Link,
     Button,
     Icon,
     Box,
@@ -26,6 +26,8 @@ import {
     useToast
      } from '@chakra-ui/react'
 
+import { Link as ReactLink } from 'react-router-dom'
+
 import htmr from 'htmr'
 
 import { FaHeart, FaCommentDots , FaShareAlt, FaRegCopy} from 'react-icons/fa'
@@ -34,11 +36,11 @@ import { useLazyQuery , useMutation} from '@apollo/client'
 
 import { useCookies } from 'react-cookie'
 
-import { fetchComments } from '../../../graphql/query'
+import { fetchComments } from '../../graphql/query'
 
-import { insertLike , deleteLike } from '../../../graphql/mutation'
+import { insertLike , deleteLike } from '../../graphql/mutation'
 
-import { CommentEditor } from '../../../components'
+import CommentEditor from '../TextEditor/Comment'
 
 import CommentContainer from './CommentContainer'
 
@@ -170,8 +172,10 @@ export default function PostContainer(props) {
                     size='sm' 
                     src={post.user.user_avatar.avatar_url}/>
                     
-                    <Text
-                    >{post.user.username}</Text>
+                    <Link
+                    as={ReactLink}
+                    to={('/user/'+post.user.username)}
+                    >{post.user.username}</Link>
                     
                 </Flex>
 

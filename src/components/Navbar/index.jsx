@@ -41,6 +41,12 @@ export default function Navbar(props) {
 
   const isLogin = cookies.uid
 
+  const handleToProfile = () =>{
+
+    navigate('/user/'+ username)
+  
+  }
+
   const handleToUpdateProfile = () =>{
 
     navigate('/update-profile')
@@ -168,6 +174,7 @@ export default function Navbar(props) {
                       display='flex'
                       alignItems='center'
                       gap='5'
+                      onClick={handleToProfile}
                       >
                       
                       <Avatar src={avatarUrl} size='2xs'/>
