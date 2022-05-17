@@ -50,7 +50,7 @@ export default function SignInContainer() {
 
     const dispatch = useDispatch()
 
-    const {isLargerThan850px} = useMediaQuery('(min-width:850px)')
+    const [isLargerThan850px] = useMediaQuery('(min-width:850px)')
 
     const { login , signGoogle} = useAuth()
 
