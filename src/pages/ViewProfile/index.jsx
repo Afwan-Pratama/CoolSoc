@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { 
-    Avatar, 
-    Box,  
+    Avatar,
     Flex, 
     Heading, 
     Image, 
-    Text} from '@chakra-ui/react'
+    Text,
+    useMediaQuery} from '@chakra-ui/react'
 
 import { Pagination } from '@nextui-org/react'
 
@@ -14,7 +14,9 @@ import { useQuery } from '@apollo/client'
 
 import { useParams , useNavigate} from 'react-router-dom'
 
-import { fetchViewProfile } from '../../graphql/query'
+import { useCookies } from 'react-cookie'
+
+import { fetchViewProfile , fetchUserData } from '../../graphql/query'
 
 import { Navbar, SpinnerPage , PostContainer } from '../../components'
 
@@ -26,7 +28,17 @@ export default function ViewProfile() {
 
     const navigate = useNavigate()
 
-    const {data,loading,refetch} = useQuery(fetchViewProfile,{
+    const [cookies] = useCookies()
+    
+    const [isLargerThan500px] = useMediaQuery('(min-width:500px)')
+
+    const {data : dataUser, loading : loadingUser} = useQuery(fetchUserData,{
+        variables : {
+            uid : cookies.uid
+        }
+    })
+
+    const {data : dataProfile , loading : loadingProfile ,refetch} = useQuery(fetchViewProfile,{
         
         variables:{
             username : param.username,
@@ -36,7 +48,7 @@ export default function ViewProfile() {
     
     })
 
-    if (loading){
+    if (loadingProfile || loadingUser){
 
         return <SpinnerPage/>
 
@@ -44,11 +56,11 @@ export default function ViewProfile() {
 
     let totalPage
 
-    if(data.user[0].posts_aggregate.aggregate.count % 10 > 0){
-        totalPage = parseInt((data.user[0].posts_aggregate.aggregate.count /10)+1)
+    if(dataProfile.user[0].posts_aggregate.aggregate.count % 10 > 0){
+        totalPage = parseInt((dataProfile.user[0].posts_aggregate.aggregate.count /10)+1)
     }
     else{
-        totalPage = parseInt(data.user[0].posts_aggregate.aggregate.count / 10)
+        totalPage = parseInt(dataProfile.user[0].posts_aggregate.aggregate.count / 10)
     }
 
     const handleRefetchLike = () => {
@@ -60,9 +72,9 @@ export default function ViewProfile() {
     const handleChangePage = (e) =>{
 
         if(e===1){
-        return navigate('/user/'+data.user[0].username)
+        return navigate('/user/'+dataProfile.user[0].username)
         }
-        return navigate('/user/'+data.user[0].username+'/'+e)
+        return navigate('/user/'+dataProfile.user[0].username+'/'+e)
 
     }
     
@@ -75,56 +87,63 @@ export default function ViewProfile() {
         >
 
             <Navbar 
-            avatarUrl={data.user[0].user_avatar.avatar_url}
-            username={data.user[0].username}
+            avatarUrl={dataUser.user[0].user_avatar.avatar_url}
+            username={dataUser.user[0].username}
             />
 
-            <Box
+            <Flex
             position='relative'
+            flexDir='column'
+            alignItems='center'
             >
 
                 <Image
                 w='full'
-                h='500px'
+                h={isLargerThan500px?'500px':'300px'}
                 objectFit='cover' 
-                src={data.user[0].user_avatar.background_url || defaultBackground} 
+                src={dataProfile.user[0].user_avatar.background_url || defaultBackground} 
                 />
 
                 <Flex
                 position='absolute'
-                left='20%'
-                transform='translateY(-50%)'
-                alignItems='flex-end'
-                gap='12'
+                flexDir={isLargerThan500px?'row':'column'}
+                transform={isLargerThan500px?'translateY(340%)':'translateY(100%)'}
+                alignItems={isLargerThan500px?'flex-end':'center'}
+                gap={isLargerThan500px?'12':'4'}
                 >
 
                     <Avatar
                     size='2xl'
-                    src={data.user[0].user_avatar.avatar_url}
+                    src={dataProfile.user[0].user_avatar.avatar_url}
                     />
                     
-                    <Box>
+                    <Flex
+                    flexDir='column'
+                    alignItems={isLargerThan500px?'flex-start':'center'}
+                    >
 
-                        <Heading>{data.user[0].username}</Heading>
+                        <Heading>{dataProfile.user[0].username}</Heading>
 
                         <Text
                         color='gray.500'
                         fontWeight='semibold'
                         >
-                        {(data.user[0].user_detail.first_name + ' ' +
-                        data.user[0].user_detail.last_name)}
+                        {(dataProfile.user[0].user_detail.first_name + ' ' +
+                        dataProfile.user[0].user_detail.last_name)}
                         </Text>
 
-                    </Box>
+                    </Flex>
        
                 </Flex>
             
-            </Box>
+            </Flex>
 
             <Flex
             mt='24'
             justifyContent='center'
-            columnGap='12'
+            gap='12'
+            alignItems='center'
+            flexDir={isLargerThan500px?'row':'column'}
             >
                 
                 <Flex
@@ -149,7 +168,7 @@ export default function ViewProfile() {
                     <Text
                     fontSize='2xl'
                     fontWeight='extrabold'
-                    >{data.user[0].posts_aggregate.aggregate.count}</Text>
+                    >{dataProfile.user[0].posts_aggregate.aggregate.count}</Text>
                     
                     <Text>Posted</Text>
                 
@@ -178,7 +197,7 @@ export default function ViewProfile() {
                     <Text
                     fontSize='2xl'
                     fontWeight='extrabold'
-                    >{data.user[0].comments_aggregate.aggregate.count}</Text>
+                    >{dataProfile.user[0].comments_aggregate.aggregate.count}</Text>
                 
                     <Text>Commented</Text>
                 
@@ -194,11 +213,11 @@ export default function ViewProfile() {
             >
 
                 <Heading>
-                {(data.user[0].user_detail.first_name + ' ' +
-                data.user[0].user_detail.last_name+`'s Posts`)}
+                {(dataProfile.user[0].user_detail.first_name + ' ' +
+                dataProfile.user[0].user_detail.last_name+`'s Posts`)}
                 </Heading>
 
-                    {data.user[0].posts.map((post,index)=>(
+                    {dataProfile.user[0].posts.map((post,index)=>(
 
                     <Flex
                     key={index}

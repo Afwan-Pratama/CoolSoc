@@ -110,17 +110,18 @@ export default function CardSetup(props) {
         offsetX='-100px'>
 
           <Box
-          w='600px'
+          w={[300,400,600,600,600,600]}
           h='600px'
           bg='white'
           borderRadius='25px'
           flexDirection='column'
           gap='12'
           justifyContent='center'
-          px='100px'
+          px={[25,50,100,100,100,100]}
           boxShadow='aroundmd'
           display={form.display}
           >
+
             <Heading>Create Your Account</Heading>
 
             <InputWithCheck

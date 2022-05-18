@@ -3,7 +3,8 @@ import React,{useState} from 'react'
 import { 
   Box,
   Flex,
-  Text} from '@chakra-ui/react'
+  Text,
+  useMediaQuery} from '@chakra-ui/react'
 
 import { motion } from 'framer-motion'
 
@@ -32,6 +33,8 @@ export default function SignUp() {
 
   const [ progress , setProgress ] = useState(initialProgress)
   
+  const [isLargerThan750px] = useMediaQuery('(min-width:750px)') 
+
   const handleNext = () =>{
 
     setProgress({
@@ -78,10 +81,10 @@ export default function SignUp() {
       >
 
         <Flex
-        width='600px'
+        width={isLargerThan750px?'600px':'300px'}
         position='relative'
         justifyContent='space-between'
-        mt='24'
+        mt={isLargerThan750px?'24' : '6'}
         >
           
           <Flex
@@ -105,11 +108,11 @@ export default function SignUp() {
           </Flex>
           
           <Box
-          w='520px'
+          w={isLargerThan750px?'520px' : '200px'}
           position='absolute'
           h='1.5'
           bg={progress.background}
-          transform='translate(7%,300%)'
+          transform={isLargerThan750px?'translate(7%,300%)':'translate(17%,300%)'}
           />
           
           <Flex 
