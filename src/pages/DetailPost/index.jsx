@@ -66,7 +66,7 @@ export default function DetailPost() {
       setDataPost(result.data.posts[0])
       setLoading((prev)=>
       {
-        return {...prev,post : false}
+        return {user : false , post : false}
       })
     
     })
