@@ -275,10 +275,7 @@ export default function SignInContainer() {
                         leftIcon={<Icon as={FcGoogle} />}
                         px='10'
                         variant='solid'
-                        bg='white'
                         boxShadow='around'
-                        color='black'
-                        colorScheme='twitter'
                         onClick={handleSignInGoogle}
                         isLoading={loading.google}
                         >Google</Button>
@@ -287,10 +284,7 @@ export default function SignInContainer() {
                         leftIcon={<Icon color='twitter.500' as={FaTwitter}/>}
                         px='10'
                         variant='solid'
-                        bg='white'
                         boxShadow='around'
-                        color='black'
-                        colorScheme='twitter'
                         isLoading={loading.twitter}
                         >Twitter</Button>
                     

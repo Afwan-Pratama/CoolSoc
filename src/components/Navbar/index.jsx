@@ -22,7 +22,8 @@ import { useCookies } from 'react-cookie'
 import { RiHome2Line , 
   RiNotification2Line,
   RiAccountCircleLine,
-  RiLogoutCircleLine } from 'react-icons/ri'
+  RiLogoutCircleLine,
+  RiSettings3Line } from 'react-icons/ri'
   
 import { useAuth } from '../../context/FirebaseContext'
 
@@ -51,6 +52,12 @@ export default function Navbar(props) {
 
     navigate('/update-profile')
   
+  }
+
+  const handleToSetting = () =>{
+
+    navigate('/settings')
+
   }
 
   const handleLogOut = async () =>{
@@ -191,12 +198,27 @@ export default function Navbar(props) {
                       gap='5'
                       onClick={handleToUpdateProfile}
                     >
-
                       
                       <Icon 
                       fontSize='xl'
                       as={RiAccountCircleLine}/>
                       Update Profile
+                      
+                    </MenuItem>
+
+                    <MenuDivider/>
+
+                    <MenuItem
+                      display='flex'
+                      alignItems='center'
+                      gap='5'
+                      onClick={handleToSetting}
+                    >
+                      
+                      <Icon 
+                      fontSize='xl'
+                      as={RiSettings3Line}/>
+                      Settings
                       
                     </MenuItem>
                       

@@ -198,8 +198,8 @@ export default function PostContainer(props) {
                 >
 
                     <Button
-                    bg={likePost?'primary.100':'gray.100'}
-                    color={likePost?'white':'black'}
+                    bg={likePost?'primary.100':''}
+                    color={likePost?'white':''}
                     isLoading={loadingLike}
                     leftIcon={
                         <Icon as={FaHeart}/>
@@ -208,8 +208,8 @@ export default function PostContainer(props) {
                     >{post.likes.length}</Button>
 
                     <Button
-                    bg={openComment?'primary.100':'gray.100'}
-                    color={openComment?'white':'black'}
+                    bg={openComment?'primary.100':''}
+                    color={openComment?'white':''}
                     leftIcon={
                         <Icon as={FaCommentDots}/>
                     }
@@ -279,7 +279,7 @@ export default function PostContainer(props) {
             <Box 
             padding='6' 
             boxShadow='lg' 
-            bg='white'
+            
             m='5'
             >
                 <SkeletonCircle size='10' />

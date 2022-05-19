@@ -122,7 +122,9 @@ export default function CardSetup(props) {
           display={form.display}
           >
 
-            <Heading>Create Your Account</Heading>
+            <Heading
+            color='black'
+            >Create Your Account</Heading>
 
             <InputWithCheck
             typeInput='Email'
