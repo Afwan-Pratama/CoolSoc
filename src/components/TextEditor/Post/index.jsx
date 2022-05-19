@@ -165,7 +165,6 @@ const PostEditor = () => {
       boxShadow='around'
       borderRadius='25px'
       position='fixed'
-      bg='white'
       zIndex='10'
       >
 

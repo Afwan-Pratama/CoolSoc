@@ -153,7 +153,7 @@ query fetchViewProfile($username: String, $offset: Int, $limit: Int) {
         count
       }
     }
-    posts(offset: $offset, limit: $limit) {
+    posts(offset: $offset, limit: $limit,order_by: {created_at: desc}) {
       post_id
       content
       user {

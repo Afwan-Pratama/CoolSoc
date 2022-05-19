@@ -85,7 +85,7 @@ export default function Home() {
       <Flex
       flexDirection='column'
       alignItems='center'
-      m={isLargerThan480px?'20':'32'}
+      py={isLargerThan480px?'20':'32'}
       gap='10'
       >
 

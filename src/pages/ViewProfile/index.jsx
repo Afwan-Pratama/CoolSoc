@@ -77,13 +77,13 @@ export default function ViewProfile() {
         return navigate('/user/'+dataProfile.user[0].username+'/'+e)
 
     }
-    
+
     return (
         
         <Flex
         flexDir='column'
         gap='12'
-        mb='32'
+        pb='32'
         >
 
             <Navbar 
@@ -95,6 +95,7 @@ export default function ViewProfile() {
             position='relative'
             flexDir='column'
             alignItems='center'
+            pt={isLargerThan500px?'':'28'}
             >
 
                 <Image

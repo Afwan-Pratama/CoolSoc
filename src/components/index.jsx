@@ -5,6 +5,7 @@ import SpinnerPage from "./SpinnerPage";
 import PostEditor from "./TextEditor/Post";
 import CommentEditor from "./TextEditor/Comment";
 import PostContainer from "./PostCard";
+import ColorModeSwitcher from './ColorModeSwitcher'
 
 export { 
     Navbar , 
@@ -13,4 +14,5 @@ export {
     SpinnerPage , 
     PostEditor , 
     CommentEditor,
-    PostContainer}
+    PostContainer,
+    ColorModeSwitcher}

@@ -23,10 +23,12 @@ import AddPostPage from '../../pages/AddPostPages'
 import DetailPost from '../../pages/DetailPost'
 import UpdateProfile from '../../pages/UpdateProfile'
 import ViewProfile from '../../pages/ViewProfile'
+import SettingsPage from '../../pages/SettingsPage'
 
 export default function AnimatedRoute() {
 
   return (
+
       <AnimatePresence>
 
         <Routes>
@@ -158,6 +160,16 @@ export default function AnimatedRoute() {
                 } />
 
               </Route>
+
+              <Route path='settings' element={
+
+                <AuthAfterSignUp>
+
+                  <SettingsPage/>
+                  
+                </AuthAfterSignUp>
+
+              }/>
 
             </Route>      
         

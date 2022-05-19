@@ -138,7 +138,9 @@ export default function CardDetail(props) {
           boxShadow='aroundmd'
           display={form.display}
           >
-            <Heading>Personal Details</Heading>
+            <Heading
+            color='black'
+            >Personal Details</Heading>
 
             <InputWithCheck
             typeInput='Username'
