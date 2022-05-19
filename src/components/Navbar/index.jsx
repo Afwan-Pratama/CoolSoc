@@ -88,7 +88,7 @@ export default function Navbar(props) {
         >
 
           <Box
-          w={[280,180,300,300,300]}
+          w={isLargerThan480px?[280,180,300,300,300]:''}
           bg='primary.100'
           color='white'
           py={isLogin?'.2rem':'.7rem'}
@@ -106,9 +106,10 @@ export default function Navbar(props) {
           </Box>  
             
             <Flex 
-            w={[280,180,300,300,300]}
+            w={isLargerThan480px?[280,180,300,300,300]:''}
             alignItems='center'
             justifyContent='space-around'
+            columnGap={isLargerThan480px?'':'12'}
             bg='primary.100'
             py='.35rem'
             borderRadius='25px'
