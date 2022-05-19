@@ -71,20 +71,21 @@ export default function SignUp() {
    >
 
       <Flex
-      h='100vh'
+      h={isLargerThan750px?'100vh': ''}
       w='full'
       bg='linear-gradient(180deg, #4EA5FF 0%, rgba(78, 165, 255, 0.5625) 99.99%, rgba(78, 165, 255, 0) 100%);'
       alignItems='center'
       textAlign='center'
       flexDirection='column'
       gap='12'
+      pb={isLargerThan750px?'':'12'}
       >
 
         <Flex
         width={isLargerThan750px?'600px':'300px'}
         position='relative'
         justifyContent='space-between'
-        mt={isLargerThan750px?'24' : '6'}
+        mt={isLargerThan750px?'24' : '12'}
         >
           
           <Flex
