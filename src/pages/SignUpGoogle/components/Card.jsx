@@ -114,7 +114,9 @@ export default function Card() {
           px='100px'
           boxShadow='aroundmd'
           >
-            <Heading>Personal Details</Heading>
+            <Heading
+            color='black'
+            >Personal Details</Heading>
 
             <InputWithCheck
             typeInput='Username'

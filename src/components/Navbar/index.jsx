@@ -22,7 +22,8 @@ import { useCookies } from 'react-cookie'
 import { RiHome2Line , 
   RiNotification2Line,
   RiAccountCircleLine,
-  RiLogoutCircleLine } from 'react-icons/ri'
+  RiLogoutCircleLine,
+  RiSettings3Line } from 'react-icons/ri'
   
 import { useAuth } from '../../context/FirebaseContext'
 
@@ -51,6 +52,12 @@ export default function Navbar(props) {
 
     navigate('/update-profile')
   
+  }
+
+  const handleToSetting = () =>{
+
+    navigate('/settings')
+
   }
 
   const handleLogOut = async () =>{
@@ -88,7 +95,7 @@ export default function Navbar(props) {
         >
 
           <Box
-          w={[280,180,300,300,300]}
+          w={isLargerThan480px?[280,180,300,300,300]:''}
           bg='primary.100'
           color='white'
           py={isLogin?'.2rem':'.7rem'}
@@ -106,9 +113,10 @@ export default function Navbar(props) {
           </Box>  
             
             <Flex 
-            w={[280,180,300,300,300]}
+            w={isLargerThan480px?[280,180,300,300,300]:''}
             alignItems='center'
             justifyContent='space-around'
+            columnGap={isLargerThan480px?'':'12'}
             bg='primary.100'
             py='.35rem'
             borderRadius='25px'
@@ -190,12 +198,27 @@ export default function Navbar(props) {
                       gap='5'
                       onClick={handleToUpdateProfile}
                     >
-
                       
                       <Icon 
                       fontSize='xl'
                       as={RiAccountCircleLine}/>
                       Update Profile
+                      
+                    </MenuItem>
+
+                    <MenuDivider/>
+
+                    <MenuItem
+                      display='flex'
+                      alignItems='center'
+                      gap='5'
+                      onClick={handleToSetting}
+                    >
+                      
+                      <Icon 
+                      fontSize='xl'
+                      as={RiSettings3Line}/>
+                      Settings
                       
                     </MenuItem>
                       

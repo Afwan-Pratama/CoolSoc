@@ -161,8 +161,8 @@ export default function PostContainer(props) {
                >
 
                    <Button
-                   bg={likePost?'primary.100':'gray.100'}
-                   color={likePost?'white':'black'}
+                   bg={likePost?'primary.100':''}
+                   color={likePost?'white':''}
                    isLoading={loadingLike}
                    leftIcon={
                        <Icon as={FaHeart}/>

@@ -61,7 +61,7 @@ export default function FormContainer(props) {
         flexDir='column'
         gap='12'
         px={[30,50,100,200,400]}
-        mb='32'
+        pb='32'
         >
             <Heading>Update Profile</Heading>
 

@@ -2,7 +2,6 @@ import { extendTheme } from "@chakra-ui/react";
 
 const activeLabelStyles = {
     transform : 'scale(0.85) translateY(-35px)',
-    color : 'black'
 }
 
 export const theme = extendTheme({
@@ -34,8 +33,7 @@ export const theme = extendTheme({
                   left: 0,
                   zIndex: 2,
                   position: 'absolute',
-                  backgroundColor: 'transparent',
-                  color : '#999999',
+                  backgroundColor: 'transparent',                 
                   pointerEvents: 'none',
                   mx: 3,
                   px: 1,
